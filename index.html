@@ -1,0 +1,1483 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Nihongo Michi</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* Layout concept: a quiet indigo study desk. Large mincho kana as the focal type, a single vermilion hanko stamp for the streak, everything else flat and ruled. */
+:root {
+  --bg: #F1F4F9; --surface: #FFFFFF; --surface2: #E6EBF4; --ink: #121A30; --muted: #58627A; --line: #D2D9E6;
+  --accent: #2A4491; --on-accent: #FFFFFF; --accent-soft: #DEE5F6; --stamp: #C4402A;
+  --good: #1F744D; --good-soft: #DAF0E4; --bad: #B03434; --bad-soft: #F7E0E0; --warn: #9A6A12;
+  --f-display: 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', serif;
+  --f-body: 'Zen Kaku Gothic New', 'Hiragino Sans', 'Yu Gothic', 'Noto Sans JP', system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1324; --surface: #151D33; --surface2: #1D2744; --ink: #E6EBF6; --muted: #9AA5BF; --line: #2A3556;
+    --accent: #8CA5F2; --on-accent: #0D1324; --accent-soft: #222E52; --stamp: #EE7A62;
+    --good: #5FC79B; --good-soft: #163B2E; --bad: #F28585; --bad-soft: #40222A; --warn: #E3B45F; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D1324; --surface: #151D33; --surface2: #1D2744; --ink: #E6EBF6; --muted: #9AA5BF; --line: #2A3556;
+  --accent: #8CA5F2; --on-accent: #0D1324; --accent-soft: #222E52; --stamp: #EE7A62;
+  --good: #5FC79B; --good-soft: #163B2E; --bad: #F28585; --bad-soft: #40222A; --warn: #E3B45F; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0;
+  -webkit-text-size-adjust: 100%;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { text-wrap: balance; line-height: 1.25; }
+a { color: var(--accent); }
+.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--bg); border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 12px; padding-block: 10px; max-width: 980px; margin: 0 auto;
+}
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font-weight: 700; letter-spacing: .01em; }
+.brand-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 8px; background: var(--accent); color: var(--on-accent); font: 700 20px var(--f-display); }
+.brand span:last-child { white-space: nowrap; }
+.hdr-r { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.pill { font-size: 12.5px; font-weight: 700; padding: 4px 10px; border: 1px solid var(--line); border-radius: 99px; background: var(--surface); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.nav { display: flex; gap: 2px; }
+.nav a { text-decoration: none; color: var(--muted); display: flex; flex-direction: column; align-items: center; padding: 6px 12px; border-radius: 8px; line-height: 1.15; }
+.nav a .nj { font: 700 16px var(--f-display); }
+.nav a .ne { font-size: 11.5px; font-weight: 500; }
+.nav a[aria-current="page"] { color: var(--accent); background: var(--accent-soft); }
+.nav a:hover { color: var(--ink); }
+@media (max-width: 759px) {
+  .nav {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 9; background: var(--surface); border-top: 1px solid var(--line);
+    justify-content: space-around; padding: 6px max(8px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px));
+  }
+  .nav a { flex: 1; padding: 6px 4px; }
+  .brand span:last-child { display: none; }
+}
+@media (min-width: 760px) { .top { gap: 24px; } .nav { margin-left: 8px; } }
+.wrap { max-width: 980px; margin: 0 auto; padding-block: 24px 110px; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.wrap > * { min-width: 0; }
+
+/* type */
+.jp-h { font-family: var(--f-display); font-weight: 700; }
+.jp-h.sm { font-size: 24px; line-height: 1.2; }
+.h { font: 700 28px/1.2 var(--f-body); display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.h .jp-h { font-size: 34px; color: var(--accent); }
+.sub { color: var(--muted); max-width: 62ch; }
+.sec { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-top: 8px; }
+.eyebrow { font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.lede { color: var(--muted); font-size: 16px; }
+.lede b { color: var(--ink); }
+.meta { color: var(--muted); font-size: 13px; }
+.meta.c { text-align: center; }
+.lab { display: block; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 4px; }
+.back { font-size: 13.5px; font-weight: 700; text-decoration: none; display: inline-block; }
+.back::before { content: "← "; }
+.foot { color: var(--muted); font-size: 12px; text-align: center; margin-top: 12px; }
+.grow { flex: 1; min-width: 0; }
+
+/* controls */
+.btn {
+  font: inherit; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 8px 18px;
+  border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: var(--on-accent); text-decoration: none; cursor: pointer;
+}
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn.bad { background: transparent; color: var(--bad); border-color: var(--bad); }
+.btn.big { min-height: 52px; font-size: 16px; padding-inline: 26px; align-self: flex-start; }
+.btn.off { opacity: .5; cursor: default; }
+.btn:hover:not(.off) { filter: brightness(1.06); }
+.btn kbd { font: 600 11px var(--f-body); opacity: .75; border: 1px solid currentColor; border-radius: 4px; padding: 0 5px; }
+.link { font: inherit; background: none; border: 0; color: var(--muted); text-decoration: underline; cursor: pointer; padding: 6px 0; }
+.icon { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--accent); cursor: pointer; flex: none; }
+.sel { font: inherit; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); min-height: 44px; max-width: 100%; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.actions.end { justify-content: center; }
+
+/* surfaces */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+.card.empty { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.grid { display: grid; gap: 12px; }
+.grid.plan { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.grid.lv { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.list { display: flex; flex-direction: column; gap: 12px; }
+.list.tight { gap: 8px; }
+.bar { height: 8px; border-radius: 99px; background: var(--surface2); overflow: hidden; }
+.bar > i { display: block; height: 100%; background: var(--accent); border-radius: 99px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.tile b { font-size: 28px; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.tile b.jp-h { font-size: 26px; }
+.chip { font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 99px; border: 1px solid var(--line); color: var(--muted); }
+.chip.on { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+.lvtag { display: inline-block; font: 700 13px var(--f-display); color: var(--accent); background: var(--accent-soft); border-radius: 6px; padding: 2px 8px; }
+.lvtag.big { font-size: 20px; padding: 2px 10px; }
+
+/* hero + stamp */
+.hero { display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap; }
+.jp-h { letter-spacing: .02em; }
+.hero .jp-h { font-size: clamp(34px, 8vw, 52px); line-height: 1.15; margin: 4px 0 8px; }
+.stamp { width: 96px; height: 96px; border: 3px solid var(--stamp); border-radius: 50%; color: var(--stamp); display: grid; place-content: center; text-align: center; transform: rotate(-7deg); flex: none; box-shadow: inset 0 0 0 3px var(--bg), inset 0 0 0 4.5px var(--stamp); }
+.stamp b { font: 700 36px/1 var(--f-display); font-variant-numeric: tabular-nums; }
+.stamp span { font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; font-weight: 700; }
+
+/* plan */
+.step { display: flex; flex-direction: column; gap: 10px; }
+.step-h { display: flex; gap: 10px; align-items: center; }
+.step-n { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 13px; background: var(--accent-soft); color: var(--accent); }
+.step.done .step-n { background: var(--good); color: var(--bg); }
+.step.done .bar > i { background: var(--good); }
+.step .count { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.step .btn { margin-top: auto; align-self: flex-start; }
+.lvbox { display: flex; gap: 18px; align-items: flex-end; flex-wrap: wrap; }
+.lvbox .grow { display: flex; flex-direction: column; gap: 6px; min-width: 180px; }
+.callout { display: flex; gap: 14px; justify-content: space-between; align-items: center; flex-wrap: wrap; border-color: var(--stamp); }
+
+/* learn */
+.lvcard { display: flex; flex-direction: column; gap: 8px; text-decoration: none; color: var(--ink); }
+.lvcard:hover { border-color: var(--accent); }
+.lvcard.current { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.lvcard p { color: var(--muted); font-size: 14px; }
+.lvcard .lvtag { align-self: flex-start; }
+.row { display: flex; gap: 14px; align-items: center; text-decoration: none; color: var(--ink); flex-wrap: wrap; }
+a.row:hover { border-color: var(--accent); }
+.row .rt { width: 130px; display: flex; flex-direction: column; gap: 6px; }
+.row3 { display: flex; }
+.kgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(86px, 1fr)); gap: 8px; }
+.k { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 4px 8px; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; }
+.k:hover { border-color: var(--accent); }
+.kc { font: 700 32px/1.1 var(--f-display); }
+.kr { font-size: 13px; color: var(--muted); }
+.pips { display: inline-flex; gap: 3px; align-items: center; }
+.pips i { width: 7px; height: 7px; border-radius: 2px; background: var(--surface2); border: 1px solid var(--line); }
+.pips i.on { background: var(--accent); border-color: var(--accent); }
+.item { display: flex; gap: 14px; align-items: center; padding: 12px 14px; }
+.ij { font: 700 24px/1.2 var(--f-display); min-width: 4.5em; max-width: 42%; overflow-wrap: anywhere; }
+.im .rd { font-size: 15px; }
+.im .en { color: var(--muted); }
+.ro { color: var(--muted); font-size: 13px; }
+.ro.c { text-align: center; }
+.ir { display: flex; gap: 10px; align-items: center; flex: none; }
+.g header { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+.g h3 { font: 700 21px var(--f-display); }
+.g .gm { color: var(--muted); flex: 1; min-width: 120px; }
+.g .gr { display: flex; gap: 10px; align-items: center; }
+.ex { margin-top: 10px; padding: 12px 14px; background: var(--surface2); border-radius: 8px; display: flex; flex-direction: column; gap: 2px; }
+.exjp { font: 700 19px/1.4 var(--f-display); }
+.exkana { font-size: 13.5px; color: var(--muted); }
+.exro { font-size: 13px; color: var(--muted); font-style: italic; }
+.exen { margin-top: 4px; }
+
+/* flashcards */
+.topline { display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap; }
+.fc { min-height: 300px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 12px; padding: 28px 22px; cursor: pointer; }
+.fc.flipped { cursor: default; }
+.fc hr { width: 60%; border: 0; border-top: 1px solid var(--line); margin: 6px 0; }
+.fc-big { font: 700 clamp(56px, 18vw, 120px)/1.1 var(--f-display); overflow-wrap: anywhere; }
+.fc-pat { font: 700 clamp(30px, 8vw, 48px)/1.25 var(--f-display); }
+.fc-rd { font: 500 24px var(--f-display); }
+.fc-ans { font: 700 34px/1.2 var(--f-body); }
+.fc-ans.sm { font-size: 22px; }
+.fc-tools { display: flex; gap: 8px; }
+.grades { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.grades .btn { min-width: 120px; }
+.done-card { display: flex; flex-direction: column; gap: 14px; }
+.done-card h1 { font-size: 44px; color: var(--accent); }
+
+/* test */
+.lobby { display: flex; flex-direction: column; gap: 18px; }
+.row2 { display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start; }
+.facts { margin: 0; padding-left: 18px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 220px; }
+.qcard { display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center; padding: 26px 18px; }
+.prompt { font: 700 26px/1.35 var(--f-body); overflow-wrap: anywhere; }
+.prompt.big { font: 700 clamp(48px, 14vw, 84px)/1.15 var(--f-display); }
+.prompt.sent { font: 700 24px/1.5 var(--f-display); }
+.choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.choice { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: flex; gap: 12px; align-items: center; text-align: left; cursor: pointer; min-height: 52px; min-width: 0; }
+.choice:hover:not(:disabled) { border-color: var(--accent); }
+.choice .key { flex: none; width: 24px; height: 24px; border-radius: 6px; display: grid; place-items: center; font-size: 12px; font-weight: 700; background: var(--surface2); color: var(--muted); }
+.choice .ct { font-size: 17px; min-width: 0; overflow-wrap: anywhere; }
+.choice.ok { border-color: var(--good); background: var(--good-soft); }
+.choice.ok .key { background: var(--good); color: var(--bg); }
+.choice.no { border-color: var(--bad); background: var(--bad-soft); }
+.choice.no .key { background: var(--bad); color: var(--bg); }
+.choice.dim { opacity: .55; }
+.choice:disabled { cursor: default; }
+.fb { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 12px 14px; border-radius: 10px; border: 1px solid; }
+.fb p { flex: 1; min-width: 200px; }
+.fb.good { border-color: var(--good); background: var(--good-soft); }
+.fb.bad { border-color: var(--bad); background: var(--bad-soft); }
+.fb.good b { color: var(--good); } .fb.bad b { color: var(--bad); }
+.result { display: flex; flex-direction: column; gap: 14px; }
+.res-top { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+.grade { width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; font: 700 52px var(--f-display); border: 3px solid var(--stamp); color: var(--stamp); transform: rotate(-6deg); flex: none; }
+.score { font: 700 54px/1 var(--f-display); font-variant-numeric: tabular-nums; }
+.score small { font-size: 26px; color: var(--muted); }
+.cats, .card > .catrow { display: flex; flex-direction: column; gap: 8px; }
+.catrow { display: grid; grid-template-columns: minmax(110px, 190px) 1fr auto; gap: 12px; align-items: center; padding-block: 5px; }
+.rv { display: flex; gap: 12px; align-items: center; padding: 10px 14px; font-size: 14px; }
+.rvm { font-size: 12px; font-weight: 700; width: 52px; flex: none; }
+.rv.good .rvm { color: var(--good); } .rv.bad .rvm { color: var(--bad); }
+.rv.bad { border-left: 3px solid var(--bad); } .rv.good { border-left: 3px solid var(--good); }
+
+/* scores */
+.chart { width: 100%; height: auto; display: block; }
+.chart .gl { stroke: var(--line); stroke-width: 1; }
+.chart .gt { fill: var(--muted); font: 500 11px var(--f-body); font-variant-numeric: tabular-nums; }
+.chart .gt.today { fill: var(--accent); font-weight: 700; }
+.chart .gv { fill: var(--ink); font: 700 11px var(--f-body); font-variant-numeric: tabular-nums; }
+.chart .bf { fill: var(--accent); opacity: .8; } .chart .bf.today { opacity: 1; }
+.chart .be { fill: var(--line); }
+.heat { display: grid; grid-template-columns: repeat(15, 1fr); gap: 4px; max-width: 520px; }
+.hm { aspect-ratio: 1; border-radius: 3px; background: var(--surface2); display: block; }
+.hm.x { background: transparent; }
+.hm.l1 { background: color-mix(in srgb, var(--accent) 28%, var(--surface2)); }
+.hm.l2 { background: color-mix(in srgb, var(--accent) 52%, var(--surface2)); }
+.hm.l3 { background: color-mix(in srgb, var(--accent) 76%, var(--surface2)); }
+.hm.l4 { background: var(--accent); }
+.legend { margin-top: 10px; }
+.scroll { overflow-x: auto; padding: 4px 14px; }
+.tbl { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; min-width: 420px; }
+.tbl th { text-align: left; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 10px 8px; border-bottom: 1px solid var(--line); }
+.tbl td { padding: 10px 8px; border-bottom: 1px solid var(--line); }
+.tbl tr:last-child td { border-bottom: 0; }
+
+/* progress */
+.est { display: flex; justify-content: space-between; gap: 18px; align-items: center; flex-wrap: wrap; }
+.est h2 { font-size: 30px; color: var(--accent); margin: 4px 0; }
+.est-r { text-align: right; display: flex; flex-direction: column; }
+.est-r b { font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums; }
+.dl { font-size: 13px; font-weight: 700; } .dl.up { color: var(--good); } .dl.dn { color: var(--bad); }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.wchip { border: 1px solid var(--line); border-radius: 8px; padding: 4px 10px; background: var(--surface2); }
+.wchip b { font-family: var(--f-display); }
+.badges { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+.badge { border: 1px dashed var(--line); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 2px; color: var(--muted); }
+.badge.on { border: 1px solid var(--accent); background: var(--accent-soft); color: var(--ink); }
+.badge .bm { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--line); display: grid; place-items: center; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.badge.on .bm { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+
+@media (prefers-reduced-motion: no-preference) { .bar > i { transition: width .35s ease; } }
+@media (max-width: 520px) {
+  .catrow { grid-template-columns: 1fr auto; } .catrow .bar { grid-column: 1 / -1; order: 3; }
+  .item { flex-wrap: wrap; } .ij { max-width: 100%; }
+  .est-r { text-align: left; }
+}
+
+/* library */
+.sp{display:block;font-size:12.5px;font-weight:700;color:var(--accent);margin-bottom:2px}
+.card ul{margin:0;padding-left:20px}
+</style>
+<header class="top">
+  <a class="brand" href="#today" aria-label="Nihongo Michi home"><span class="brand-mark">道</span><span>Nihongo Michi</span></a>
+  <nav class="nav" id="nav" aria-label="Sections"></nav>
+  <div class="hdr-r"><span class="pill" id="hdr-streak">0 days</span><span class="pill" id="hdr-xp">0 XP</span></div>
+</header>
+<main id="app" class="wrap"></main>
+<script>
+'use strict';
+/* ================= DATA ================= */
+const LEVELS = [
+  { id: 'kana', name: 'Foundations', tag: 'かな', blurb: 'Hiragana and katakana: every sound you will read and write.' },
+  { id: 'n5', name: 'Beginner', tag: 'N5', blurb: 'Greetings, numbers, daily verbs and your first real sentences.' },
+  { id: 'n4', name: 'Elementary', tag: 'N4', blurb: 'Requests, permission, reasons and talking about experience.' },
+  { id: 'n3', name: 'Intermediate', tag: 'N3', blurb: 'Passive, causative and the language of cause and result.' },
+  { id: 'n2', name: 'Upper intermediate', tag: 'N2', blurb: 'News, workplace and formal written Japanese.' },
+  { id: 'n1', name: 'Advanced', tag: 'N1', blurb: 'Literary, abstract and finely shaded expressions.' },
+  { id: 'native', name: 'Native polish', tag: '達人', blurb: 'Keigo, proverbs, onomatopoeia, slang and the unwritten rules.' }
+];
+const LEVEL_IDX = {}; LEVELS.forEach((l, i) => { LEVEL_IDX[l.id] = i; });
+const LEVEL_BY_ID = {}; LEVELS.forEach(l => { LEVEL_BY_ID[l.id] = l; });
+const UNITS = []; const ITEMS = []; const BY_ID = {}; const UNIT_BY_ID = {};
+
+function addUnit(lv, id, title, type, cat, blurb, items) {
+  const u = { id, lv, title, type, cat, blurb, items: [] };
+  items.forEach((x, i) => {
+    const it = Object.assign({ id: id + '.' + i, u: id, lv, t: type, cat }, x);
+    u.items.push(it); ITEMS.push(it); BY_ID[it.id] = it;
+  });
+  UNITS.push(u); UNIT_BY_ID[id] = u;
+}
+function parseRows(txt) {
+  return txt.trim().split('\n').map(l => {
+    const p = l.split('|').map(s => s.trim());
+    return { jp: p[0], rd: p[1], en: p[2] };
+  });
+}
+function G(rows) {
+  return rows.map(r => ({
+    jp: r[0], en: r[1], note: r[2],
+    ex: { jp: r[3], kana: r[4], en: r[5] },
+    quiz: { q: r[6], a: r[7], w: r[8] }
+  }));
+}
+
+/* ---- kana ---- */
+const toKata = s => s.replace(/[ぁ-ゖ]/g, c => String.fromCharCode(c.charCodeAt(0) + 0x60));
+const toHira = s => s.replace(/[ァ-ヶ]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));
+const H_ROWS = [
+  ['あいうえお', 'a i u e o'], ['かきくけこ', 'ka ki ku ke ko'], ['さしすせそ', 'sa shi su se so'],
+  ['たちつてと', 'ta chi tsu te to'], ['なにぬねの', 'na ni nu ne no'], ['はひふへほ', 'ha hi fu he ho'],
+  ['まみむめも', 'ma mi mu me mo'], ['やゆよ', 'ya yu yo'], ['らりるれろ', 'ra ri ru re ro'], ['わをん', 'wa wo n']
+];
+const H_DAK = [
+  ['がぎぐげご', 'ga gi gu ge go'], ['ざじずぜぞ', 'za ji zu ze zo'], ['だぢづでど', 'da ji(di) zu(du) de do'],
+  ['ばびぶべぼ', 'ba bi bu be bo'], ['ぱぴぷぺぽ', 'pa pi pu pe po']
+];
+const YOON = 'きゃ:kya きゅ:kyu きょ:kyo しゃ:sha しゅ:shu しょ:sho ちゃ:cha ちゅ:chu ちょ:cho にゃ:nya にゅ:nyu にょ:nyo ひゃ:hya ひゅ:hyu ひょ:hyo みゃ:mya みゅ:myu みょ:myo りゃ:rya りゅ:ryu りょ:ryo ぎゃ:gya ぎゅ:gyu ぎょ:gyo じゃ:ja じゅ:ju じょ:jo びゃ:bya びゅ:byu びょ:byo ぴゃ:pya ぴゅ:pyu ぴょ:pyo';
+function kanaItems(rows, kata) {
+  const out = [];
+  rows.forEach(r => {
+    const rs = r[1].split(' ');
+    [...r[0]].forEach((c, i) => out.push({ jp: kata ? toKata(c) : c, rd: '', en: '', ro: rs[i], sc: kata ? 'k' : 'h' }));
+  });
+  return out;
+}
+function yoonItems(kata) {
+  return YOON.split(' ').map(p => {
+    const a = p.split(':');
+    return { jp: kata ? toKata(a[0]) : a[0], rd: '', en: '', ro: a[1], sc: kata ? 'k' : 'h' };
+  });
+}
+[false, true].forEach(k => {
+  const nm = k ? 'Katakana' : 'Hiragana'; const pre = k ? 'kana-k' : 'kana-h';
+  const use = k ? 'Used for foreign words, names and emphasis.' : 'The base script. Every Japanese word can be written with it.';
+  addUnit('kana', pre + '1', nm + ': vowels, K, S, T, N', 'kana', 'Kana', use, kanaItems(H_ROWS.slice(0, 5), k));
+  addUnit('kana', pre + '2', nm + ': H, M, Y, R, W', 'kana', 'Kana', use, kanaItems(H_ROWS.slice(5), k));
+  addUnit('kana', pre + '3', nm + ': voiced sounds', 'kana', 'Kana', 'Two small marks (゛ ゜) change K to G, S to Z, T to D, H to B or P.', kanaItems(H_DAK, k));
+  addUnit('kana', pre + '4', nm + ': combined sounds', 'kana', 'Kana', 'A small や, ゆ or よ fuses with the kana before it into one syllable.', yoonItems(k));
+});
+
+/* romaji converter (hepburn-ish) */
+const RO = {}; H_ROWS.concat(H_DAK).forEach(r => { const rs = r[1].split(' '); [...r[0]].forEach((c, i) => { RO[c] = rs[i].replace(/\(.*\)/, ''); }); });
+RO['を'] = 'o';
+const ROY = {}; YOON.split(' ').forEach(p => { const a = p.split(':'); ROY[a[0]] = a[1]; });
+function toRomaji(str) {
+  const s = toHira(str || ''); let out = ''; let dbl = false;
+  for (let i = 0; i < s.length; i++) {
+    const c = s[i]; let r;
+    if (c === 'っ') { dbl = true; continue; }
+    const two = s.slice(i, i + 2);
+    if (ROY[two]) { r = ROY[two]; i++; }
+    else if (RO[c]) r = RO[c];
+    else if (c === 'ー') { const v = out.slice(-1); r = /[aiueo]/.test(v) ? v : ''; }
+    else r = c;
+    if (dbl && /^[a-z]/.test(r)) r = (r.indexOf('ch') === 0 ? 't' : r[0]) + r;
+    dbl = false; out += r;
+  }
+  return out;
+}
+function sentenceRomaji(kana) {
+  if (!kana) return '';
+  const t = kana.split(' ').map(w => w === 'は' ? 'wa' : w === 'へ' ? 'e' : toRomaji(w)).join(' ');
+  return (t.charAt(0).toUpperCase() + t.slice(1)).replace(/。/g, '.').replace(/、/g, ',');
+}
+
+/* ---- N5 ---- */
+addUnit('n5', 'n5-greet', 'Greetings and manners', 'vocab', 'Vocabulary', 'Set phrases you will say every day.', parseRows(`
+おはようございます|おはようございます|good morning
+こんにちは|こんにちは|hello / good afternoon
+こんばんは|こんばんは|good evening
+ありがとうございます|ありがとうございます|thank you
+すみません|すみません|excuse me / sorry
+はい|はい|yes
+いいえ|いいえ|no
+お願いします|おねがいします|please (making a request)
+さようなら|さようなら|goodbye
+いただきます|いただきます|said before eating
+ごちそうさまでした|ごちそうさまでした|said after eating
+おやすみなさい|おやすみなさい|good night`));
+addUnit('n5', 'n5-people', 'People and family', 'vocab', 'Vocabulary', 'Who is who.', parseRows(`
+私|わたし|I, me
+あなた|あなた|you
+友達|ともだち|friend
+先生|せんせい|teacher
+学生|がくせい|student
+家族|かぞく|family
+母|はは|mother (my own)
+父|ちち|father (my own)
+兄|あに|older brother (my own)
+姉|あね|older sister (my own)
+子供|こども|child
+男の人|おとこのひと|man
+女の人|おんなのひと|woman`));
+addUnit('n5', 'n5-num', 'Numbers and time', 'vocab', 'Vocabulary', 'Count, tell the day and the time.', parseRows(`
+一|いち|one
+二|に|two
+三|さん|three
+四|よん|four
+五|ご|five
+六|ろく|six
+七|なな|seven
+八|はち|eight
+九|きゅう|nine
+十|じゅう|ten
+百|ひゃく|hundred
+千|せん|thousand
+今日|きょう|today
+明日|あした|tomorrow
+昨日|きのう|yesterday
+今|いま|now
+毎日|まいにち|every day
+朝|あさ|morning
+夜|よる|night
+時間|じかん|time / hours`));
+addUnit('n5', 'n5-food', 'Food and drink', 'vocab', 'Vocabulary', 'Words for the table.', parseRows(`
+水|みず|water
+お茶|おちゃ|tea
+ご飯|ごはん|cooked rice / meal
+パン|パン|bread
+肉|にく|meat
+魚|さかな|fish
+野菜|やさい|vegetables
+卵|たまご|egg
+牛乳|ぎゅうにゅう|milk
+りんご|りんご|apple
+果物|くだもの|fruit
+料理|りょうり|cooking / dish`));
+addUnit('n5', 'n5-place', 'Places', 'vocab', 'Vocabulary', 'Where things are and where you go.', parseRows(`
+家|いえ|house / home
+学校|がっこう|school
+会社|かいしゃ|company
+駅|えき|station
+銀行|ぎんこう|bank
+病院|びょういん|hospital
+店|みせ|shop
+部屋|へや|room
+国|くに|country
+町|まち|town
+公園|こうえん|park
+図書館|としょかん|library`));
+addUnit('n5', 'n5-verb', 'First verbs', 'vocab', 'Vocabulary', 'Dictionary forms of the verbs you need first.', parseRows(`
+食べる|たべる|to eat
+飲む|のむ|to drink
+見る|みる|to see / watch
+聞く|きく|to listen / ask
+読む|よむ|to read
+書く|かく|to write
+話す|はなす|to speak
+行く|いく|to go
+来る|くる|to come
+帰る|かえる|to return home
+買う|かう|to buy
+会う|あう|to meet
+起きる|おきる|to wake up
+寝る|ねる|to sleep
+勉強する|べんきょうする|to study
+待つ|まつ|to wait`));
+addUnit('n5', 'n5-adj', 'First adjectives', 'vocab', 'Vocabulary', 'い-adjectives and な-adjectives.', parseRows(`
+大きい|おおきい|big
+小さい|ちいさい|small
+新しい|あたらしい|new
+古い|ふるい|old (things)
+高い|たかい|high / expensive
+安い|やすい|cheap
+美味しい|おいしい|delicious
+楽しい|たのしい|fun
+忙しい|いそがしい|busy
+好き|すき|liked / fond of
+嫌い|きらい|disliked
+静か|しずか|quiet
+きれい|きれい|pretty / clean
+元気|げんき|healthy / energetic`));
+addUnit('n5', 'n5-kanji', 'First kanji', 'kanji', 'Kanji', 'The first 24 characters. Readings: on-yomi (Chinese-derived) after the dot.', parseRows(`
+日|ひ・にち|sun, day
+月|つき・げつ|moon, month
+火|ひ・か|fire
+水|みず・すい|water
+木|き・もく|tree, wood
+金|かね・きん|gold, money
+土|つち・ど|earth, soil
+山|やま・さん|mountain
+川|かわ・せん|river
+人|ひと・じん|person
+口|くち・こう|mouth
+目|め・もく|eye
+手|て・しゅ|hand
+足|あし・そく|foot, leg
+大|おお・だい|big
+小|ちい・しょう|small
+上|うえ・じょう|above
+下|した・か|below
+中|なか・ちゅう|middle, inside
+学|まな・がく|study
+生|い・せい|life, birth
+先|さき・せん|ahead, previous
+年|とし・ねん|year
+本|もと・ほん|book, origin`));
+addUnit('n5', 'n5-g1', 'Sentence basics', 'grammar', 'Grammar', 'Topic, object, place and possession particles.', G([
+  ['～は～です', 'X is Y', 'は marks the topic (read “wa”). です is the polite “is / am / are”.', '私は学生です。', 'わたし は がくせい です。', 'I am a student.', '私は学生___。', 'です', ['ます', 'を', 'に']],
+  ['～ですか', 'Question: “...?”', 'Add か to the end of a sentence to make a yes/no question.', 'あなたは先生ですか。', 'あなた は せんせい です か。', 'Are you a teacher?', 'あなたは先生です___。', 'か', ['よ', 'ね', 'を']],
+  ['～を', 'Object marker', 'を marks what the verb acts on. It is read “o”.', '水を飲みます。', 'みず を のみます。', 'I drink water.', '水___飲みます。', 'を', ['に', 'で', 'と']],
+  ['～に (place / time)', 'to / at / in', 'に marks a destination, a point in time, or where something exists.', '学校に行きます。', 'がっこう に いきます。', 'I go to school.', '学校___行きます。', 'に', ['を', 'で', 'と']],
+  ['～で (place of action)', 'at / in / by', 'で marks where an action happens, or the means used.', '図書館で本を読みます。', 'としょかん で ほん を よみます。', 'I read a book at the library.', '図書館___本を読みます。', 'で', ['に', 'を', 'の']],
+  ['～が好きです', 'like ～', 'The thing you like takes が, not を.', '私は犬が好きです。', 'わたし は いぬ が すき です。', 'I like dogs.', '私は犬___好きです。', 'が', ['を', 'に', 'で']],
+  ['～の', '’s / of', 'の links two nouns: the first owns or describes the second.', 'これは私の本です。', 'これ は わたし の ほん です。', 'This is my book.', 'これは私___本です。', 'の', ['が', 'を', 'に']]
+]));
+addUnit('n5', 'n5-g2', 'Verbs and adjectives', 'grammar', 'Grammar', 'Polite verb forms, wanting, and ongoing action.', G([
+  ['～ます', 'polite present / future', 'The polite verb ending. 食べる becomes 食べます.', '毎日、ご飯を食べます。', 'まいにち、ごはん を たべます。', 'I eat rice every day.', '毎日、ご飯を食べ___。', 'ます', ['ました', 'ません', 'ましょう']],
+  ['～ません', 'polite negative', 'Replace ます with ません to say you do not.', '私は肉を食べません。', 'わたし は にく を たべません。', 'I do not eat meat.', '私は肉を食べ___。', 'ません', ['ます', 'ました', 'ましょう']],
+  ['～ました', 'polite past', 'Replace ます with ました.', '昨日、映画を見ました。', 'きのう、えいが を みました。', 'I watched a movie yesterday.', '昨日、映画を見___。', 'ました', ['ます', 'ません', 'ましょう']],
+  ['～ましょう', 'let’s ～', 'An invitation. Often paired with 一緒に (together).', '一緒に食べましょう。', 'いっしょ に たべましょう。', 'Let us eat together.', '一緒に食べ___。', 'ましょう', ['ました', 'ません', 'ます']],
+  ['～たいです', 'want to ～', 'Verb stem + たい. The stem is the ます form without ます.', '水が飲みたいです。', 'みず が のみたいです。', 'I want to drink water.', '水が飲み___です。', 'たい', ['ます', 'ない', 'ました']],
+  ['い-adjective + です', 'is (adjective)', 'い-adjectives end in い and take です to be polite.', 'この料理は美味しいです。', 'この りょうり は おいしい です。', 'This dish is delicious.', 'この料理は美味し___です。', 'い', ['く', 'な', 'に']],
+  ['～ている', 'is ～ing', 'Te-form + いる shows an action in progress or a continuing state.', '今、本を読んでいます。', 'いま、ほん を よんでいます。', 'I am reading a book now.', '今、本を読ん___。', 'でいます', ['ました', 'ません', 'ましょう']]
+]));
+
+/* ---- N4 ---- */
+addUnit('n4', 'n4-v1', 'Everyday nouns', 'vocab', 'Vocabulary', 'Words for plans, feelings and daily life.', parseRows(`
+経験|けいけん|experience
+準備|じゅんび|preparation
+約束|やくそく|promise / appointment
+趣味|しゅみ|hobby
+旅行|りょこう|trip
+季節|きせつ|season
+天気|てんき|weather
+病気|びょうき|illness
+最近|さいきん|recently
+特別|とくべつ|special
+大切|たいせつ|important / precious
+会議|かいぎ|meeting
+意見|いけん|opinion
+質問|しつもん|question
+結婚|けっこん|marriage
+運転|うんてん|driving`));
+addUnit('n4', 'n4-v2', 'Adjectives and verbs', 'vocab', 'Vocabulary', 'Describing things and doing things.', parseRows(`
+危ない|あぶない|dangerous
+難しい|むずかしい|difficult
+簡単|かんたん|simple / easy
+便利|べんり|convenient
+有名|ゆうめい|famous
+親切|しんせつ|kind
+早い|はやい|early / fast
+遅い|おそい|late / slow
+教える|おしえる|to teach / tell
+覚える|おぼえる|to memorize
+忘れる|わすれる|to forget
+考える|かんがえる|to think
+探す|さがす|to look for
+持つ|もつ|to hold / have
+使う|つかう|to use
+働く|はたらく|to work
+歩く|あるく|to walk
+走る|はしる|to run
+始める|はじめる|to begin
+終わる|おわる|to end
+手伝う|てつだう|to help`));
+addUnit('n4', 'n4-kanji', 'More kanji', 'kanji', 'Kanji', 'Verbs and school life. Okurigana in brackets.', parseRows(`
+時|とき・じ|time
+間|あいだ・かん|interval, between
+行|い(く)・こう|go
+来|く(る)・らい|come
+見|み(る)・けん|see
+食|た(べる)・しょく|eat
+飲|の(む)・いん|drink
+買|か(う)・ばい|buy
+言|い(う)・げん|say
+話|はな(す)・わ|speak
+読|よ(む)・どく|read
+書|か(く)・しょ|write
+聞|き(く)・ぶん|hear, ask
+電|でん|electricity
+駅|えき|station
+校|こう|school`));
+addUnit('n4', 'n4-g1', 'Requests and permission', 'grammar', 'Grammar', 'Using the te-form and the negative.', G([
+  ['～てください', 'please ～', 'Te-form + ください is a polite request.', 'ちょっと待ってください。', 'ちょっと まってください。', 'Please wait a moment.', 'ちょっと待っ___ください。', 'て', ['た', 'ない', 'ます']],
+  ['～てもいいです', 'may ～ / it is OK to ～', 'Te-form + もいい. Used to give or ask permission.', 'ここに座ってもいいですか。', 'ここ に すわっても いい です か。', 'May I sit here?', 'ここに座っ___いいですか。', 'ても', ['ないで', 'たら', 'ので']],
+  ['～てはいけません', 'must not ～', 'Te-form + はいけません is a prohibition.', '教室で食べてはいけません。', 'きょうしつ で たべては いけません。', 'You must not eat in the classroom.', '教室で食べ___いけません。', 'ては', ['ても', 'ないで', 'たり']],
+  ['～ないでください', 'please do not ～', 'Negative request: ない-form + でください.', 'ここで走らないでください。', 'ここ で はしらないで ください。', 'Please do not run here.', 'ここで走ら___ください。', 'ないで', ['なくて', 'ずに', 'ないと']],
+  ['～なければならない', 'must ～', 'Negative stem + なければならない. Casual speech shortens it to なきゃ.', '薬を飲まなければなりません。', 'くすり を のまなければ なりません。', 'I have to take medicine.', '薬を飲ま___ならない。', 'なければ', ['なくても', 'ないで', 'ずに']],
+  ['～すぎる', 'too much ～', 'Stem + すぎる marks an excess.', '食べすぎました。', 'たべすぎました。', 'I ate too much.', '食べ___ました。', 'すぎ', ['たり', 'ながら', 'そう']]
+]));
+addUnit('n4', 'n4-g2', 'Reasons, ideas and comparison', 'grammar', 'Grammar', 'Joining ideas into longer sentences.', G([
+  ['～ながら', 'while ～ing', 'Stem + ながら: two actions by the same person at once.', '音楽を聞きながら勉強します。', 'おんがく を ききながら べんきょう します。', 'I study while listening to music.', '音楽を聞き___勉強します。', 'ながら', ['ので', 'たり', 'ために']],
+  ['～たことがある', 'have done ～ before', 'Past form + ことがある describes an experience.', '日本へ行ったことがあります。', 'にほん へ いった ことが あります。', 'I have been to Japan.', '日本へ行った___があります。', 'こと', ['もの', 'ところ', 'ため']],
+  ['～ので', 'because ～', 'Plain form + ので gives a reason. Softer than から.', '雨なので、行きません。', 'あめ なので、いきません。', 'Because it is raining, I will not go.', '雨な___、行きません。', 'ので', ['のに', 'ために', 'ながら']],
+  ['～と思います', 'I think ～', 'Plain form + と思います states your opinion.', '明日は雨だと思います。', 'あした は あめだ と おもいます。', 'I think it will rain tomorrow.', '明日は雨だ___思います。', 'と', ['が', 'に', 'を']],
+  ['～たら', 'if / when ～', 'Past form + ら expresses a condition.', '安かったら、買います。', 'やすかったら、かいます。', 'If it is cheap, I will buy it.', '安かっ___、買います。', 'たら', ['ても', 'ので', 'ながら']],
+  ['～より', 'more than ～', 'A は B より～: A is more ～ than B.', '犬は猫より大きいです。', 'いぬ は ねこ より おおきい です。', 'Dogs are bigger than cats.', '犬は猫___大きいです。', 'より', ['まで', 'だけ', 'ほど']]
+]));
+
+/* ---- N3 ---- */
+addUnit('n3', 'n3-v1', 'Society and cause', 'vocab', 'Vocabulary', 'Abstract nouns you meet in articles and conversation.', parseRows(`
+状況|じょうきょう|situation
+関係|かんけい|relationship
+影響|えいきょう|influence
+経済|けいざい|economy
+文化|ぶんか|culture
+社会|しゃかい|society
+習慣|しゅうかん|habit / custom
+目的|もくてき|purpose
+原因|げんいん|cause
+結果|けっか|result
+自然|しぜん|nature
+将来|しょうらい|future
+責任|せきにん|responsibility
+以前|いぜん|previously`));
+addUnit('n3', 'n3-v2', 'Verbs and adverbs', 'vocab', 'Vocabulary', 'Change, choice and degree.', parseRows(`
+利用する|りようする|to make use of
+増える|ふえる|to increase
+減る|へる|to decrease
+続ける|つづける|to continue
+決める|きめる|to decide
+集める|あつめる|to collect
+比べる|くらべる|to compare
+確か|たしか|certain / if I remember correctly
+十分|じゅうぶん|enough
+普通|ふつう|ordinary
+突然|とつぜん|suddenly
+必ず|かならず|without fail
+例えば|たとえば|for example`));
+addUnit('n3', 'n3-g', 'Cause, expectation and voice', 'grammar', 'Grammar', 'Passive, causative and ways to give reasons.', G([
+  ['～ばかり', 'just ～ed', 'Past form + ばかり: something happened a moment ago.', 'さっき食べたばかりです。', 'さっき たべた ばかり です。', 'I just ate.', 'さっき食べた___です。', 'ばかり', ['まで', 'ぐらい', 'ほど']],
+  ['～ことになる', 'it has been decided that ～', 'Used for decisions made by circumstances or by others.', '来月、東京に引っ越すことになりました。', 'らいげつ、とうきょう に ひっこす ことに なりました。', 'It has been decided that I will move to Tokyo next month.', '来月、東京に引っ越す___になりました。', 'こと', ['ため', 'よう', 'はず']],
+  ['～はず', 'should be ～', 'An expectation based on reasoning.', '彼はもう着いているはずです。', 'かれ は もう ついている はず です。', 'He should have arrived already.', '彼はもう着いている___です。', 'はず', ['こと', 'ため', 'つもり']],
+  ['～せいで', 'because of ～ (bad result)', 'Blames something for a negative result.', '雨のせいで遅れました。', 'あめ の せいで おくれました。', 'I was late because of the rain.', '雨の___で遅れました。', 'せい', ['おかげ', 'わけ', 'はず']],
+  ['～おかげで', 'thanks to ～', 'Credits something for a good result.', '先生のおかげで合格しました。', 'せんせい の おかげで ごうかく しました。', 'Thanks to my teacher, I passed.', '先生の___で合格しました。', 'おかげ', ['せい', 'わけ', 'はず']],
+  ['～ようとする', 'try to ～ / be about to ～', 'Volitional form + とする.', '窓を開けようとしました。', 'まど を あけようと しました。', 'I tried to open the window.', '窓を開け___としました。', 'よう', ['たい', 'ない', 'ます']],
+  ['～られる (passive)', 'is ～ed by', 'The receiver becomes the subject. Often carries a feeling of being affected.', '先生に褒められました。', 'せんせい に ほめられました。', 'I was praised by my teacher.', '先生に褒め___ました。', 'られ', ['させ', 'たい', 'ない']],
+  ['～させる (causative)', 'make / let someone ～', 'The doer is made or allowed to act.', '母は子供に野菜を食べさせました。', 'はは は こども に やさい を たべさせました。', 'Mother made the child eat vegetables.', '母は子供に野菜を食べ___ました。', 'させ', ['られ', 'たい', 'ない']],
+  ['～わけではない', 'it does not mean ～', 'Softens a negative: not necessarily.', '嫌いなわけではありません。', 'きらい な わけでは ありません。', 'It is not that I dislike it.', '嫌いな___ではありません。', 'わけ', ['はず', 'こと', 'もの']],
+  ['～によると', 'according to ～', 'Names the source of information, usually followed by そうだ.', '天気予報によると、明日は雨だそうです。', 'てんきよほう に よると、あした は あめ だそうです。', 'According to the forecast, it will rain tomorrow.', '天気予報に___、明日は雨だそうです。', 'よると', ['ついて', 'たいして', 'とって']]
+]));
+
+/* ---- N2 ---- */
+addUnit('n2', 'n2-v', 'News and work vocabulary', 'vocab', 'Vocabulary', 'Words from newspapers and meetings.', parseRows(`
+傾向|けいこう|tendency
+現象|げんしょう|phenomenon
+維持|いじ|maintenance
+把握|はあく|grasp, understanding
+検討|けんとう|consideration
+提案|ていあん|proposal
+貢献|こうけん|contribution
+相当|そうとう|considerably
+著しい|いちじるしい|remarkable
+緩やか|ゆるやか|gentle / gradual
+備える|そなえる|to prepare for
+妨げる|さまたげる|to hinder
+招く|まねく|to invite / bring about
+控える|ひかえる|to refrain
+補う|おぎなう|to compensate
+巧み|たくみ|skillful
+曖昧|あいまい|vague
+慎重|しんちょう|cautious
+顕著|けんちょ|striking
+抽象的|ちゅうしょうてき|abstract`));
+addUnit('n2', 'n2-g', 'Formal expressions', 'grammar', 'Grammar', 'Certainty, obligation and written style.', G([
+  ['～に違いない', 'must be ～ (certain)', 'Strong conviction based on evidence.', '彼が犯人に違いない。', 'かれ が はんにん に ちがいない。', 'He must be the culprit.', '彼が犯人に___ない。', '違い', ['過ぎ', '限ら', '関わら']],
+  ['～わけにはいかない', 'cannot ～ (given the circumstances)', 'Something you cannot do for social or practical reasons.', '明日は試験だから、遊ぶわけにはいかない。', 'あした は しけん だから、あそぶ わけには いかない。', 'Tomorrow is the exam, so I cannot play.', '明日は試験だから、遊ぶ___にはいかない。', 'わけ', ['こと', 'はず', 'もの']],
+  ['～ざるを得ない', 'have no choice but to ～', 'Negative stem + ざるを得ない. する becomes せざるを得ない.', '雨なので、中止せざるを得ない。', 'あめ なので、ちゅうし せざるを えない。', 'Because of the rain, we have no choice but to cancel.', '雨なので、中止せ___を得ない。', 'ざる', ['ず', 'ぬ', 'ない']],
+  ['～ものの', 'although ～', 'Concessive: A, but B.', '買ったものの、一度も使っていない。', 'かった ものの、いちど も つかって いない。', 'I bought it, but I have not used it once.', '買った___、一度も使っていない。', 'ものの', ['ために', 'ところ', 'ながら']],
+  ['～に基づいて', 'based on ～', 'The grounds for a statement or action.', '事実に基づいて書きました。', 'じじつ に もとづいて かきました。', 'I wrote it based on facts.', '事実に___いて書きました。', '基づ', ['向', '対', '比']],
+  ['～に過ぎない', 'is merely ～', 'Downplays: nothing more than.', 'それは噂に過ぎない。', 'それ は うわさ に すぎない。', 'That is merely a rumor.', 'それは噂に___ない。', '過ぎ', ['違い', '限ら', '関わら']],
+  ['～つつある', 'is in the process of ～ing', 'Written style for gradual change.', '世界は変わりつつある。', 'せかい は かわり つつ ある。', 'The world is changing.', '世界は変わり___ある。', 'つつ', ['ながら', 'たり', 'ほど']],
+  ['～かねない', 'might well ～ (bad outcome)', 'Stem + かねない warns of an undesirable possibility.', 'このままでは事故になりかねない。', 'このままでは じこ に なりかねない。', 'At this rate it could well lead to an accident.', 'このままでは事故になり___ない。', 'かね', ['たく', 'やす', 'にく']]
+]));
+
+/* ---- N1 ---- */
+addUnit('n1', 'n1-v', 'Literary and abstract words', 'vocab', 'Vocabulary', 'Words that mark advanced reading.', parseRows(`
+趨勢|すうせい|trend
+齟齬|そご|discrepancy
+賄う|まかなう|to cover / provide for
+滞る|とどこおる|to stagnate
+拘る|こだわる|to be particular about
+憂慮|ゆうりょ|concern
+概ね|おおむね|generally
+脆い|もろい|fragile
+怠る|おこたる|to neglect
+促す|うながす|to urge / promote
+覆す|くつがえす|to overturn
+弁える|わきまえる|to discern / know one’s place
+潔い|いさぎよい|admirably clean-cut
+儚い|はかない|fleeting
+趣|おもむき|appearance / charm
+侮る|あなどる|to look down on
+煩わしい|わずらわしい|troublesome
+辛辣|しんらつ|scathing`));
+addUnit('n1', 'n1-g', 'Nuanced patterns', 'grammar', 'Grammar', 'Patterns that carry attitude and emotion.', G([
+  ['～をものともせず', 'in defiance of ～', 'Brave in the face of difficulty.', '困難をものともせず進んだ。', 'こんなん を ものともせず すすんだ。', 'He pressed on, undaunted by difficulty.', '困難を___ともせず進んだ。', 'もの', ['こと', 'わけ', 'はず']],
+  ['～てやまない', 'never cease to ～', 'Te-form + やまない: a lasting wish or feeling.', '皆様の成功を願ってやみません。', 'みなさま の せいこう を ねがって やみません。', 'I sincerely hope for everyone’s success.', '成功を願っ___やみません。', 'て', ['ず', 'ない', 'も']],
+  ['～ずにはいられない', 'cannot help ～ing', 'Negative stem + ずにはいられない.', 'その話を聞いて、笑わずにはいられなかった。', 'その はなし を きいて、わらわずには いられなかった。', 'Hearing that story, I could not help laughing.', '笑わ___にはいられなかった。', 'ず', ['ない', 'なく', 'ぬ']],
+  ['～をよそに', 'paying no heed to ～', 'Ignoring other people’s worry or expectation.', '親の心配をよそに、遊んでいる。', 'おや の しんぱい を よそに、あそんで いる。', 'Ignoring his parents’ worry, he is playing around.', '親の心配___よそに、遊んでいる。', 'を', ['に', 'が', 'で']],
+  ['～んばかり', 'as if about to ～', 'Negative stem + んばかり: on the verge of.', '彼女は泣き出さんばかりの顔をしていた。', 'かのじょ は なきださんばかり の かお を していた。', 'She looked as if she were about to burst into tears.', '彼女は泣き出さ___ばかりの顔をしていた。', 'ん', ['ず', 'ぬ', 'ない']],
+  ['～とはいえ', 'even though ～', 'Concedes a point before a contrasting one.', '学生とはいえ、責任がある。', 'がくせい とは いえ、せきにん が ある。', 'Even though they are students, they bear responsibility.', '学生とは___、責任がある。', 'いえ', ['言い', '思い', '知り']]
+]));
+
+/* ---- Native polish ---- */
+addUnit('native', 'nt-keigo', 'Keigo vocabulary', 'vocab', 'Vocabulary', 'Honorific raises the other person. Humble lowers yourself.', parseRows(`
+いらっしゃる|いらっしゃる|to be / go / come (honorific)
+参る|まいる|to go / come (humble)
+召し上がる|めしあがる|to eat / drink (honorific)
+いただく|いただく|to eat / receive (humble)
+おっしゃる|おっしゃる|to say (honorific)
+申す|もうす|to say (humble)
+ご覧になる|ごらんになる|to see (honorific)
+拝見する|はいけんする|to see (humble)
+なさる|なさる|to do (honorific)
+いたす|いたす|to do (humble)
+くださる|くださる|to give me (honorific)
+存じる|ぞんじる|to know (humble)
+伺う|うかがう|to visit / ask / hear (humble)
+お目にかかる|おめにかかる|to meet (humble)`));
+addUnit('native', 'nt-keigo2', 'Keigo in use', 'grammar', 'Grammar', 'Choose the right level of respect for the sentence.', G([
+  ['召し上がる', 'to eat / drink (honorific)', 'For the other person’s actions only. Never use it for yourself.', '先生は昼ご飯を召し上がりました。', 'せんせい は ひるごはん を めしあがりました。', 'The teacher ate lunch.', '先生は昼ご飯を___。', '召し上がりました', ['いただきました', '申しました', '拝見しました']],
+  ['いただく', 'to eat / receive (humble)', 'Lowers yourself while the giver is respected.', '私はお茶をいただきます。', 'わたし は おちゃ を いただきます。', 'I will have some tea.', '私はお茶を___。', 'いただきます', ['召し上がります', 'いらっしゃいます', 'おっしゃいます']],
+  ['おっしゃる', 'to say (honorific)', 'Use for what a superior or customer says.', '社長が「行きましょう」とおっしゃいました。', 'しゃちょう が 「いきましょう」と おっしゃいました。', 'The president said “Let us go.”', '社長が「行きましょう」と___。', 'おっしゃいました', ['申しました', 'いただきました', '拝見しました']],
+  ['申す', 'to say (humble)', 'Use when you introduce yourself or report your own words.', '私は田中と申します。', 'わたし は たなか と もうします。', 'My name is Tanaka.', '私は田中と___。', '申します', ['おっしゃいます', 'いらっしゃいます', '召し上がります']],
+  ['いらっしゃる', 'to be / go / come (honorific)', 'One word covers いる, 行く and 来る for someone you respect.', 'お客様がもうすぐいらっしゃいます。', 'おきゃくさま が もうすぐ いらっしゃいます。', 'The guest will arrive shortly.', 'お客様がもうすぐ___。', 'いらっしゃいます', ['参ります', '申します', '拝見します']],
+  ['参る', 'to go / come (humble)', 'Use when you are the one going to the other party.', '明日、私が御社に参ります。', 'あした、わたし が おんしゃ に まいります。', 'I will come to your company tomorrow.', '明日、私が御社に___。', '参ります', ['いらっしゃいます', 'おっしゃいます', '召し上がります']],
+  ['拝見する', 'to see (humble)', 'Use for looking at something the other person gave you.', '資料を拝見しました。', 'しりょう を はいけん しました。', 'I have looked at the materials.', '資料を___しました。', '拝見', ['ご覧', '召し上が', 'いらっしゃ']],
+  ['お～になる', 'honorific pattern', 'Verb stem + になる makes most verbs honorific.', '部長はもうお帰りになりました。', 'ぶちょう は もう おかえりに なりました。', 'The manager has already gone home.', '部長はもうお帰り___なりました。', 'に', ['を', 'が', 'で']],
+  ['お～する', 'humble pattern', 'Verb stem + する lowers yourself while helping the other.', '荷物をお持ちします。', 'にもつ を おもちします。', 'I will carry your luggage.', '荷物をお持ち___。', 'します', ['になります', 'ください', 'なさいます']]
+]));
+addUnit('native', 'nt-idiom', 'Proverbs and four-character idioms', 'vocab', 'Vocabulary', 'Phrases every native speaker recognises.', parseRows(`
+一石二鳥|いっせきにちょう|two birds with one stone
+十人十色|じゅうにんといろ|to each their own
+以心伝心|いしんでんしん|understanding without words
+七転び八起き|ななころびやおき|fall seven times, rise eight
+猿も木から落ちる|さるもきからおちる|even experts make mistakes
+猫の手も借りたい|ねこのてもかりたい|so busy you would take any help
+花より団子|はなよりだんご|substance over show
+急がば回れ|いそがばまわれ|more haste, less speed
+石の上にも三年|いしのうえにもさんねん|perseverance pays off
+一期一会|いちごいちえ|treasure each meeting; it happens once`));
+addUnit('native', 'nt-onomato', 'Onomatopoeia', 'vocab', 'Vocabulary', 'Japanese describes states and feelings with sound-words.', parseRows(`
+ぺらぺら|ぺらぺら|fluent (speech)
+どきどき|どきどき|heart pounding
+わくわく|わくわく|excited anticipation
+ぐっすり|ぐっすり|sound asleep
+のんびり|のんびり|relaxed, leisurely
+うろうろ|うろうろ|wandering aimlessly
+ぴかぴか|ぴかぴか|shiny, spotless
+ふわふわ|ふわふわ|fluffy, soft
+ざあざあ|ざあざあ|pouring (rain)
+しとしと|しとしと|drizzling quietly
+ぺこぺこ|ぺこぺこ|very hungry
+くたくた|くたくた|exhausted
+ごろごろ|ごろごろ|lounging about / rumbling`));
+addUnit('native', 'nt-spoken', 'Spoken and casual Japanese', 'vocab', 'Vocabulary', 'What you hear with friends, not in textbooks.', parseRows(`
+やばい|やばい|terrible, or awesome (context decides)
+めっちゃ|めっちゃ|super, really (casual)
+マジで|マジで|seriously, for real
+だるい|だるい|sluggish, a drag
+うざい|うざい|annoying
+ありえない|ありえない|no way / impossible
+～じゃん|じゃん|“right?” / “see?” (casual tag)
+～っけ|っけ|“what was it again?” (recalling)`));
+addUnit('native', 'nt-culture', 'Nuance and unspoken rules', 'vocab', 'Vocabulary', 'What is meant is often not what is said.', parseRows(`
+本音|ほんね|true feelings
+建前|たてまえ|public stance, what is said out of duty
+空気を読む|くうきをよむ|to read the room
+遠慮|えんりょ|restraint out of consideration
+お疲れ様です|おつかれさまです|thanks for your hard work (workplace greeting)
+よろしくお願いします|よろしくおねがいします|please treat me well / nice to meet you
+恐縮です|きょうしゅくです|I am much obliged / sorry to trouble you
+検討します|けんとうします|“I will consider it” (often a polite no)
+結構です|けっこうです|“that is fine” or “no thank you”, by tone`));
+
+/* derive romaji for non-kana items */
+ITEMS.forEach(it => {
+  if (it.t === 'vocab' || it.t === 'kanji') it.ro = it.t === 'vocab' ? toRomaji(it.rd) : '';
+});
+
+
+addUnit('n5', 'n5-days', 'Days, colors and body', 'vocab', 'Vocabulary', 'Days of the week, colors and parts of the body.', parseRows(`
+月曜日|げつようび|Monday
+火曜日|かようび|Tuesday
+水曜日|すいようび|Wednesday
+木曜日|もくようび|Thursday
+金曜日|きんようび|Friday
+土曜日|どようび|Saturday
+日曜日|にちようび|Sunday
+赤|あか|red
+青|あお|blue
+黄色|きいろ|yellow
+白|しろ|white
+黒|くろ|black
+頭|あたま|head
+顔|かお|face
+耳|みみ|ear
+鼻|はな|nose
+お腹|おなか|stomach
+体|からだ|body`));
+
+/* ================= HELPERS ================= */
+const pad2 = n => String(n).padStart(2, '0');
+const dkey = d => d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+const todayKey = () => dkey(new Date());
+const parseKey = k => { const a = k.split('-').map(Number); return new Date(a[0], a[1] - 1, a[2]); };
+const addDays = (k, n) => { const d = parseKey(k); d.setDate(d.getDate() + n); return dkey(d); };
+const daysBetween = (a, b) => Math.round((parseKey(b) - parseKey(a)) / 86400000);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const hashStr = s => { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; };
+const rnd = seed => { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; };
+function shuffle(arr, r) { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); const t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+
+/* ================= STATE ================= */
+const INT = [0, 1, 2, 4, 8, 16];
+const RANKS = [
+  [0, '初心者', 'Shoshinsha', 'Beginner'], [150, '見習い', 'Minarai', 'Apprentice'], [500, '学習者', 'Gakushūsha', 'Learner'],
+  [1200, '熟練者', 'Jukurensha', 'Skilled'], [2500, '達人', 'Tatsujin', 'Master'], [5000, '名人', 'Meijin', 'Grandmaster'], [9000, '先生', 'Sensei', 'Teacher']
+];
+function blank() { return { v: 1, u: 0, start: todayKey(), xp: 0, it: {}, days: {}, tests: [], pref: { lv: 'kana' } }; }
+let S = blank();
+const X = { cards: null, test: null, miss: [], status: 'local', uid: null };
+
+function normalize(o) {
+  const b = blank();
+  if (!o || typeof o !== 'object') return b;
+  const s = Object.assign(b, o);
+  s.it = (o.it && typeof o.it === 'object') ? o.it : {};
+  s.days = (o.days && typeof o.days === 'object') ? o.days : {};
+  s.tests = Array.isArray(o.tests) ? o.tests : [];
+  s.pref = Object.assign({ lv: 'kana' }, o.pref || {});
+  if (!LEVEL_BY_ID[s.pref.lv]) s.pref.lv = 'kana';
+  return s;
+}
+function dayRec(k) { return S.days[k] || (S.days[k] = { xp: 0, rev: 0, nw: 0, tests: 0 }); }
+function addXp(n) { S.xp += n; dayRec(todayKey()).xp += n; }
+let saveHook = () => { };
+function touch() { S.u = Date.now(); saveHook(); }
+function dayActive(k) { const d = S.days[k]; return !!d && (d.xp > 0 || d.rev > 0 || d.tests > 0); }
+function streak() {
+  const t = todayKey(); let k = dayActive(t) ? t : addDays(t, -1); let n = 0;
+  while (dayActive(k)) { n++; k = addDays(k, -1); }
+  return n;
+}
+function longestStreak() {
+  const keys = Object.keys(S.days).filter(dayActive).sort(); let best = 0, run = 0, prev = null;
+  keys.forEach(k => { run = (prev && daysBetween(prev, k) === 1) ? run + 1 : 1; if (run > best) best = run; prev = k; });
+  return best;
+}
+const rankOf = xp => { let r = RANKS[0], i = 0; RANKS.forEach((x, j) => { if (xp >= x[0]) { r = x; i = j; } }); return { r, i, next: RANKS[i + 1] || null }; };
+const itemState = id => { const a = S.it[id]; return a ? { b: a[0], due: a[1], ok: a[2], ng: a[3] } : null; };
+const isLearned = id => { const a = S.it[id]; return !!a && a[0] >= 3; };
+function levelStats(lv) {
+  const its = ITEMS.filter(i => i.lv === lv); let learned = 0, seen = 0;
+  its.forEach(i => { if (S.it[i.id]) seen++; if (isLearned(i.id)) learned++; });
+  return { total: its.length, learned, seen, pct: its.length ? learned / its.length : 0 };
+}
+function unitStats(u) {
+  let learned = 0, seen = 0; u.items.forEach(i => { if (S.it[i.id]) seen++; if (isLearned(i.id)) learned++; });
+  return { total: u.items.length, learned, seen };
+}
+function totalLearned() { let n = 0; ITEMS.forEach(i => { if (isLearned(i.id)) n++; }); return n; }
+function dueIds() {
+  const t = todayKey();
+  return Object.keys(S.it).filter(id => BY_ID[id] && S.it[id][1] <= t).sort((a, b) => S.it[a][0] - S.it[b][0]);
+}
+function newIds(n) {
+  const start = LEVEL_IDX[S.pref.lv]; const out = [];
+  for (let li = start; li < LEVELS.length && out.length < n; li++) {
+    for (const it of ITEMS) { if (it.lv === LEVELS[li].id && !S.it[it.id]) { out.push(it.id); if (out.length >= n) break; } }
+  }
+  return out;
+}
+function weakIds() {
+  return Object.keys(S.it).filter(id => BY_ID[id] && S.it[id][3] > 0 && S.it[id][3] >= S.it[id][2] * 0.5)
+    .sort((a, b) => (S.it[b][3] - S.it[b][2] * 0.5) - (S.it[a][3] - S.it[a][2] * 0.5)).slice(0, 12);
+}
+function testsOn(k) { return S.tests.filter(t => t.d === k); }
+const pctOf = t => Math.round(t.c / t.n * 100);
+function dailyScore(k) { const d = testsOn(k).find(t => t.dy); return d ? pctOf(d) : null; }
+function gradeOf(p) { return p >= 95 ? 'S' : p >= 85 ? 'A' : p >= 70 ? 'B' : p >= 50 ? 'C' : 'D'; }
+const GRADE_MSG = { S: 'Outstanding. That is native-level accuracy.', A: 'Very strong. A few details left to polish.', B: 'Solid. Review the misses and you will climb.', C: 'Getting there. Short daily reviews will lift this fast.', D: 'A hard day. Drill the misses once and try again tomorrow.' };
+
+/* ================= QUESTIONS ================= */
+function pickDistractors(pool, it, keyFn, r, k) {
+  const ans = keyFn(it); const seen = new Set([ans]); const out = [];
+  const cand = shuffle(pool.filter(x => x !== it), r);
+  cand.sort((a, b) => ((a.u === it.u ? 0 : a.lv === it.lv ? 1 : 2) - (b.u === it.u ? 0 : b.lv === it.lv ? 1 : 2)));
+  for (const x of cand) { const v = keyFn(x); if (v && !seen.has(v)) { seen.add(v); out.push(v); if (out.length >= k) break; } }
+  return out;
+}
+function mkQ(it, prompt, sub, correct, wrong, r, extra) {
+  const choices = shuffle([correct].concat(wrong), r);
+  return Object.assign({ id: it.id, cat: it.cat, prompt, sub, choices, ans: choices.indexOf(correct), explain: explainItem(it), say: it.t === 'grammar' ? (it.ex.jp) : (it.rd || it.jp) }, extra || {});
+}
+function explainItem(it) {
+  if (it.t === 'kana') return it.jp + ' is read “' + it.ro + '”.';
+  if (it.t === 'grammar') return it.jp + ' · ' + it.en + '. ' + it.note;
+  const rd = it.rd && it.rd !== it.jp ? '（' + it.rd + '）' : '';
+  return it.jp + rd + ' · ' + it.en;
+}
+function makeQ(it, r) {
+  if (it.t === 'kana') {
+    const pool = ITEMS.filter(x => x.t === 'kana' && x.sc === it.sc);
+    if (r() < 0.5) return mkQ(it, it.jp, 'Which sound is this?', it.ro, pickDistractors(pool, it, x => x.ro, r, 3), r, { big: true, say: it.jp });
+    return mkQ(it, it.ro, 'Which character is this?', it.jp, pickDistractors(pool, it, x => x.jp, r, 3), r, { say: it.jp });
+  }
+  if (it.t === 'grammar') {
+    const q = it.quiz;
+    return mkQ(it, q.q, it.ex.en, q.a, q.w.slice(0, 3), r, { big: false, sentence: true });
+  }
+  const pool = ITEMS.filter(x => x.t === it.t);
+  const kinds = ['jp2en', 'en2jp'];
+  if (it.rd && it.rd !== it.jp) kinds.push('rd');
+  const kind = kinds[Math.floor(r() * kinds.length)];
+  if (kind === 'jp2en') return mkQ(it, it.jp, 'What does this mean?', it.en, pickDistractors(pool, it, x => x.en, r, 3), r, { big: true });
+  if (kind === 'en2jp') return mkQ(it, it.en, 'Which one is this?', it.jp, pickDistractors(pool, it, x => x.jp, r, 3), r, {});
+  return mkQ(it, it.jp, 'How is this read?', it.rd, pickDistractors(pool, it, x => x.rd, r, 3), r, { big: true });
+}
+function buildQuestions(lvId, n, seed) {
+  const r = rnd(seed); const li = LEVEL_IDX[lvId];
+  const prim = ITEMS.filter(i => i.lv === lvId);
+  const sec = ITEMS.filter(i => LEVEL_IDX[i.lv] < li && (i.t !== 'kana' || li <= 1));
+  const nPrim = Math.min(prim.length, Math.round(n * (sec.length ? 0.65 : 1)));
+  let all = shuffle(prim, r).slice(0, nPrim);
+  all = all.concat(shuffle(sec, r).slice(0, n - all.length));
+  if (all.length < n) all = all.concat(shuffle(prim.filter(x => all.indexOf(x) < 0), r).slice(0, n - all.length));
+  return shuffle(all, r).map(it => makeQ(it, r));
+}
+function questionsFor(items, n, seed) {
+  const r = rnd(seed);
+  return shuffle(items, r).slice(0, n).map(it => makeQ(it, r));
+}
+
+/* ================= SESSIONS ================= */
+function startCards(key, ids, title, back) {
+  X.cards = { key, queue: ids.slice(), i: 0, flip: false, res: { again: 0, good: 0, easy: 0 }, title, back, xp0: S.xp };
+}
+function gradeCard(g) {
+  const s = X.cards; if (!s || s.i >= s.queue.length) return;
+  const id = s.queue[s.i]; const cur = S.it[id]; const t = todayKey(); const first = !cur;
+  let nb;
+  if (g === 'again') nb = 0;
+  else if (g === 'good') nb = first ? 1 : Math.min(5, cur[0] + 1);
+  else nb = first ? 2 : Math.min(5, cur[0] + 2);
+  S.it[id] = [nb, addDays(t, INT[nb]), (cur ? cur[2] : 0) + (g === 'again' ? 0 : 1), (cur ? cur[3] : 0) + (g === 'again' ? 1 : 0)];
+  const d = dayRec(t); d.rev++; if (first) d.nw++;
+  addXp(g === 'again' ? 1 : g === 'good' ? 2 : 3);
+  s.res[g]++;
+  if (g === 'again' && s.queue.length < 60) s.queue.push(id);
+  s.i++; s.flip = false;
+  touch();
+}
+function startTest(o) {
+  const t = todayKey();
+  const daily = o.record ? !S.tests.some(x => x.d === t && x.dy) : false;
+  const seed = o.seed != null ? o.seed : hashStr(t + '|' + o.lv + '|' + (o.record ? (daily ? 'd' : 'p' + testsOn(t).length) : o.key));
+  const qs = o.items ? questionsFor(o.items, o.n, seed) : buildQuestions(o.lv, o.n, daily ? hashStr(t + '|' + o.lv) : seed);
+  X.test = { key: o.key || 'test', kind: o.record ? 'daily' : 'drill', record: !!o.record, daily, lv: o.lv, title: o.title, back: o.back || '#test', qs, i: 0, picked: null, correct: 0, cat: {}, log: [], t0: Date.now(), done: false };
+}
+function answerQ(idx) {
+  const T = X.test; if (!T || T.done || T.picked != null) return;
+  const q = T.qs[T.i]; T.picked = idx; const ok = idx === q.ans;
+  if (ok) T.correct++;
+  const c = T.cat[q.cat] || (T.cat[q.cat] = [0, 0]); c[1]++; if (ok) c[0]++;
+  T.log.push({ id: q.id, ok });
+  const cur = S.it[q.id]; const t = todayKey();
+  if (ok) S.it[q.id] = cur ? [cur[0], cur[1], cur[2] + 1, cur[3]] : [1, addDays(t, 1), 1, 0];
+  else S.it[q.id] = cur ? [Math.max(0, cur[0] - 1), t, cur[2], cur[3] + 1] : [0, t, 0, 1];
+  touch();
+}
+function nextQ() {
+  const T = X.test; if (!T || T.picked == null) return;
+  if (T.i + 1 >= T.qs.length) { finishTest(); return; }
+  T.i++; T.picked = null;
+}
+function finishTest() {
+  const T = X.test; if (T.done) return;
+  T.done = true; T.secs = Math.round((Date.now() - T.t0) / 1000);
+  const n = T.qs.length, c = T.correct, pct = Math.round(c / n * 100);
+  let xp = T.record ? (T.daily ? c * 10 + 20 + (pct >= 90 ? 30 : 0) : c * 3) : c * 2;
+  T.xp = xp; T.pct = pct;
+  X.miss = T.log.filter(l => !l.ok).map(l => l.id);
+  if (T.record) {
+    S.tests.push({ t: Date.now(), d: todayKey(), lv: T.lv, n, c, s: T.secs, dy: T.daily ? 1 : 0, cat: T.cat });
+    if (S.tests.length > 150) S.tests = S.tests.slice(-150);
+    dayRec(todayKey()).tests++;
+  } else dayRec(todayKey()).rev += 0;
+  addXp(xp);
+  touch();
+}
+
+/* ================= BADGES ================= */
+function hiraganaDone() { return ITEMS.filter(i => i.t === 'kana' && i.sc === 'h').every(i => isLearned(i.id)); }
+const BADGES = [
+  ['first', 'First step', 'Finish your first mock test', () => S.tests.length >= 1],
+  ['s3', 'Three in a row', 'Study 3 days in a row', () => longestStreak() >= 3],
+  ['s7', 'One full week', 'Study 7 days in a row', () => longestStreak() >= 7],
+  ['s30', 'Thirty days', 'Study 30 days in a row', () => longestStreak() >= 30],
+  ['l50', '50 learned', 'Learn 50 items', () => totalLearned() >= 50],
+  ['l200', '200 learned', 'Learn 200 items', () => totalLearned() >= 200],
+  ['l500', '500 learned', 'Learn 500 items', () => totalLearned() >= 500],
+  ['hira', 'Hiragana complete', 'Learn every hiragana', hiraganaDone],
+  ['p90', 'Sharp', 'Score 90% or more in a test', () => S.tests.some(t => pctOf(t) >= 90)],
+  ['perf', 'Perfect paper', 'Score 100% in a test', () => S.tests.some(t => t.c === t.n)],
+  ['n5', 'N5 ready', 'Learn 70% of N5', () => levelStats('n5').pct >= 0.7],
+  ['t20', 'Twenty tests', 'Take 20 mock tests', () => S.tests.length >= 20]
+];
+
+/* ================= STORAGE ================= */
+const LS_KEY = 'nihongo-michi-v1';
+function saveLocal() { try { localStorage.setItem(LS_KEY, JSON.stringify(S)); } catch (e) { } }
+function loadLocal() { try { const t = localStorage.getItem(LS_KEY); if (t) S = normalize(JSON.parse(t)); } catch (e) { } }
+let saveTimer = null, saving = false, dirty = false, dbDoc = null, onStatus = () => { };
+function scheduleSave() {
+  saveLocal();
+  clearTimeout(saveTimer); saveTimer = setTimeout(pushRemote, 900);
+}
+async function pushRemote() {
+  if (!dbDoc) return;
+  if (saving) { dirty = true; return; }
+  saving = true;
+  try { await dbDoc.set(JSON.parse(JSON.stringify(S))); X.status = 'account'; }
+  catch (e) { X.status = 'local'; }
+  saving = false; onStatus();
+  if (dirty) { dirty = false; pushRemote(); }
+}
+async function initStorage() {
+  loadLocal();
+  saveHook = scheduleSave;
+  try {
+    const c = window.claude; if (!c || !c.use) return;
+    const user = await c.use('user'); const db = await c.use('db');
+    const uid = user ? await user.id() : null;
+    if (!db || !uid) return;
+    X.uid = uid;
+    const ref = db.doc('data/users/' + uid + '/progress');
+    const snap = await Promise.race([ref.get(), new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 10000))]);
+    if (snap.exists) {
+      const remote = normalize(snap.data());
+      if ((remote.u || 0) > (S.u || 0)) { S = remote; saveLocal(); }
+      else if ((S.u || 0) > (remote.u || 0)) { dbDoc = ref; await pushRemote(); }
+    } else if (S.u) { dbDoc = ref; await pushRemote(); }
+    dbDoc = ref; X.status = 'account';
+  } catch (e) { X.status = 'local'; }
+  onStatus();
+}
+
+/* ================= UI ================= */
+const $app = document.getElementById('app');
+const NAV = [['today', '今日', 'Today'], ['learn', '学ぶ', 'Learn'], ['library', '読む', 'Library'], ['test', '試験', 'Test'], ['scores', '成績', 'Scores'], ['progress', '歩み', 'Progress']];
+const CAN_SPEAK = typeof window !== 'undefined' && 'speechSynthesis' in window;
+const ICON_SPK = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+const spk = t => CAN_SPEAK && t ? '<button class="icon" type="button" data-a="say" data-v="' + esc(t) + '" aria-label="Play pronunciation">' + ICON_SPK + '</button>' : '';
+function speak(t) { try { const u = new SpeechSynthesisUtterance(t); u.lang = 'ja-JP'; u.rate = 0.85; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) { } }
+const fmtTime = s => Math.floor(s / 60) + ':' + pad2(s % 60);
+const bar = p => '<div class="bar" role="img" aria-label="' + Math.round(p * 100) + ' percent"><i style="width:' + Math.round(p * 100) + '%"></i></div>';
+function pips(id) {
+  const a = S.it[id]; const b = a ? a[0] : 0;
+  let h = '<span class="pips' + (a ? '' : ' new') + '" title="' + (a ? 'Mastery ' + b + ' of 5' : 'Not studied yet') + '">';
+  for (let i = 1; i <= 5; i++) h += '<i class="' + (i <= b ? 'on' : '') + '"></i>';
+  return h + '</span>';
+}
+const typeLabel = { kana: 'Kana', vocab: 'Words', kanji: 'Kanji', grammar: 'Grammar' };
+
+/* ---------- Today ---------- */
+function viewToday() {
+  const t = todayKey(); const d = S.days[t] || { xp: 0, rev: 0, nw: 0, tests: 0 };
+  const due = dueIds().length; const ls = levelStats(S.pref.lv); const st = streak(); const rk = rankOf(S.xp);
+  const dt = new Date(); const dateStr = dt.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' });
+  const dyDone = testsOn(t).some(x => x.dy); const ds = dailyScore(t);
+  const dayN = Math.max(1, daysBetween(S.start, t) + 1);
+  const newLeft = newIds(1).length;
+  const revGoal = Math.min(10, Math.max(due, d.rev)); const revDone = Math.min(d.rev, 10);
+  const lastT = S.tests.length ? S.tests[S.tests.length - 1] : null;
+  const weak = weakIds();
+  const next = rk.next;
+  const step = (n, title, count, p, body, link, label, done) =>
+    '<article class="card step' + (done ? ' done' : '') + '"><div class="step-h"><span class="step-n">' + n + '</span><h3>' + title + '</h3></div>' +
+    '<p class="count">' + count + '</p>' + bar(p) + '<p class="meta">' + body + '</p>' +
+    (link ? '<a class="btn' + (done ? ' ghost' : '') + '" href="' + link + '">' + label + '</a>' : '<span class="btn ghost off">' + label + '</span>') + '</article>';
+  return '<section class="hero"><div><p class="eyebrow">' + esc(dateStr) + '</p><h1 class="jp-h">今日の学習</h1><p class="lede">Day ' + dayN + ' on your path. Studying <b>' + esc(LEVEL_BY_ID[S.pref.lv].name) + '</b>.</p></div>' +
+    '<div class="stamp" aria-label="' + st + ' day streak"><b>' + st + '</b><span>day streak</span></div></section>' +
+    '<h2 class="sec">Today’s plan</h2><div class="grid plan">' +
+    step(1, 'Review cards', Math.min(d.rev, 10) + ' / 10', revGoal ? revDone / 10 : Math.min(1, d.rev / 10), due ? due + ' card' + (due === 1 ? '' : 's') + ' due now.' : 'Nothing due. Learn something new first.', due ? '#cards-due' : null, due ? 'Start review' : 'No cards due', d.rev >= 10) +
+    step(2, 'Learn 5 new', Math.min(d.nw, 5) + ' / 5', Math.min(1, d.nw / 5), newLeft ? 'Next up from ' + esc(LEVEL_BY_ID[S.pref.lv].name) + '.' : 'You have seen every item here. Pick a higher level.', newLeft ? '#cards-new' : null, 'Learn new items', d.nw >= 5) +
+    step(3, 'Daily mock test', dyDone ? ds + '%' : 'Not taken', dyDone ? ds / 100 : 0, dyDone ? 'Counted on your scoreboard. Retakes are practice.' : '20 questions. This one counts for today.', '#test', dyDone ? 'Practice again' : 'Take today’s test', dyDone) +
+    '</div>' +
+    '<div class="tiles"><div class="tile"><span class="lab">Learned</span><b>' + totalLearned() + '</b><span class="meta">of ' + ITEMS.length + ' items</span></div>' +
+    '<div class="tile"><span class="lab">Rank</span><b class="jp-h sm">' + rk.r[1] + '</b><span class="meta">' + S.xp + ' XP' + (next ? ' · ' + (next[0] - S.xp) + ' to ' + next[3] : '') + '</span></div>' +
+    '<div class="tile"><span class="lab">Last test</span><b>' + (lastT ? pctOf(lastT) + '%' : '–') + '</b><span class="meta">' + (lastT ? lastT.c + ' of ' + lastT.n + ' correct' : 'No tests yet') + '</span></div></div>' +
+    '<div class="card lvbox"><div><label class="lab" for="lvsel">Your study level</label><select id="lvsel" class="sel">' +
+    LEVELS.map(l => '<option value="' + l.id + '"' + (l.id === S.pref.lv ? ' selected' : '') + '>' + l.tag + ' · ' + l.name + '</option>').join('') + '</select></div>' +
+    '<div class="grow"><p class="meta">' + esc(LEVEL_BY_ID[S.pref.lv].blurb) + '</p>' + bar(ls.pct) + '<p class="meta">' + ls.learned + ' of ' + ls.total + ' learned</p></div>' +
+    '<a class="btn ghost" href="#level-' + S.pref.lv + '">Open level</a></div>' +
+    (weak.length ? '<div class="card callout"><div><h3>Weak spots</h3><p class="meta">' + weak.length + ' items you often miss. Ten minutes on these helps more than new material.</p></div><a class="btn" href="#cards-weak">Drill weak spots</a></div>' : '');
+}
+
+/* ---------- Learn ---------- */
+function viewLearn() {
+  return '<h1 class="h"><span class="jp-h">学ぶ</span> Learn</h1><p class="sub">Go in order, or jump to any level. Each unit has study cards and a quick quiz.</p><div class="grid lv">' +
+    LEVELS.map(l => { const s = levelStats(l.id); return '<a class="card lvcard' + (l.id === S.pref.lv ? ' current' : '') + '" href="#level-' + l.id + '"><span class="lvtag">' + l.tag + '</span><h3>' + l.name + '</h3><p>' + esc(l.blurb) + '</p>' + bar(s.pct) + '<p class="meta">' + s.learned + ' of ' + s.total + ' learned' + (l.id === S.pref.lv ? ' · your level' : '') + '</p></a>'; }).join('') + '</div>';
+}
+function viewLevel(id) {
+  const l = LEVEL_BY_ID[id]; if (!l) return viewNotFound();
+  const us = UNITS.filter(u => u.lv === id); const s = levelStats(id);
+  return '<a class="back" href="#learn">All levels</a><h1 class="h"><span class="lvtag big">' + l.tag + '</span> ' + l.name + '</h1><p class="sub">' + esc(l.blurb) + ' ' + s.learned + ' of ' + s.total + ' learned.</p>' +
+    '<div class="list">' + us.map(u => { const st = unitStats(u); return '<a class="card row" href="#unit-' + u.id + '"><div class="grow"><h3>' + esc(u.title) + '</h3><p class="meta">' + typeLabel[u.type] + ' · ' + u.items.length + ' items</p></div><div class="rt"><span class="meta">' + st.learned + ' / ' + st.total + '</span>' + bar(st.total ? st.learned / st.total : 0) + '</div></a>'; }).join('') + '</div>';
+}
+function viewUnit(id) {
+  const u = UNIT_BY_ID[id]; if (!u) return viewNotFound();
+  let body = '';
+  if (u.type === 'kana') {
+    body = '<div class="kgrid">' + u.items.map(it => '<button type="button" class="k" data-a="say" data-v="' + esc(it.jp) + '"><span class="kc">' + it.jp + '</span><span class="kr">' + esc(it.ro) + '</span>' + pips(it.id) + '</button>').join('') + '</div>';
+  } else if (u.type === 'grammar') {
+    body = '<div class="list">' + u.items.map(it => '<article class="card g"><header><h3>' + esc(it.jp) + '</h3><span class="gm">' + esc(it.en) + '</span><span class="gr">' + spk(it.ex.jp) + pips(it.id) + '</span></header><p>' + esc(it.note) + '</p><div class="ex"><div class="exjp">' + esc(it.ex.jp) + '</div>' + (it.ex.kana ? '<div class="exkana">' + esc(it.ex.kana) + '</div><div class="exro">' + esc(sentenceRomaji(it.ex.kana)) + '</div>' : '') + '<div class="exen">' + esc(it.ex.en) + '</div></div></article>').join('') + '</div>';
+  } else {
+    body = '<div class="list tight">' + u.items.map(it => '<div class="card item"><div class="ij">' + esc(it.jp) + '</div><div class="im grow"><div class="rd">' + (it.rd && it.rd !== it.jp ? esc(it.rd) : '') + (it.ro ? ' <span class="ro">' + esc(it.ro) + '</span>' : '') + '</div><div class="en">' + esc(it.en) + '</div></div><div class="ir">' + spk(it.rd || it.jp) + pips(it.id) + '</div></div>').join('') + '</div>';
+  }
+  return '<a class="back" href="#level-' + u.lv + '">' + esc(LEVEL_BY_ID[u.lv].name) + '</a><h1 class="h">' + esc(u.title) + '</h1><p class="sub">' + esc(u.blurb) + '</p>' +
+    '<div class="actions"><a class="btn" href="#cards-' + u.id + '">Study cards</a><a class="btn ghost" href="#drill-' + u.id + '">Quick quiz</a></div>' + body;
+}
+
+/* ---------- Cards ---------- */
+function cardFront(it) {
+  if (it.t === 'grammar') return '<div class="fc-pat">' + esc(it.jp) + '</div><p class="meta">Recall the meaning and how it is used.</p>';
+  return '<div class="fc-big">' + esc(it.jp) + '</div><p class="meta">' + (it.t === 'kana' ? 'Say the sound.' : it.t === 'kanji' ? 'Recall the reading and meaning.' : 'Recall the reading and meaning.') + '</p>';
+}
+function cardBack(it) {
+  if (it.t === 'kana') return '<div class="fc-ans">' + esc(it.ro) + '</div>';
+  if (it.t === 'grammar') return '<div class="fc-ans sm">' + esc(it.en) + '</div><p>' + esc(it.note) + '</p><div class="ex"><div class="exjp">' + esc(it.ex.jp) + '</div>' + (it.ex.kana ? '<div class="exkana">' + esc(it.ex.kana) + '</div>' : '') + '<div class="exen">' + esc(it.ex.en) + '</div></div>';
+  return (it.rd && it.rd !== it.jp ? '<div class="fc-rd">' + esc(it.rd) + '</div>' : '') + (it.ro ? '<div class="ro c">' + esc(it.ro) + '</div>' : '') + '<div class="fc-ans sm">' + esc(it.en) + '</div>';
+}
+function viewCards() {
+  const s = X.cards;
+  if (!s || !s.queue.length) return '<a class="back" href="#today">Back</a><div class="card empty"><h2>Nothing to study here</h2><p>There are no cards in this set right now. Learn new items or finish a test to build your review list.</p><a class="btn" href="#learn">Browse levels</a></div>';
+  if (s.i >= s.queue.length) {
+    const tot = s.res.again + s.res.good + s.res.easy;
+    return '<div class="card done-card"><p class="eyebrow">Session complete</p><h1 class="jp-h">お疲れ様</h1><p class="lede">' + tot + ' cards reviewed. +' + (S.xp - s.xp0) + ' XP.</p><div class="tiles"><div class="tile"><span class="lab">Again</span><b>' + s.res.again + '</b></div><div class="tile"><span class="lab">Good</span><b>' + s.res.good + '</b></div><div class="tile"><span class="lab">Easy</span><b>' + s.res.easy + '</b></div></div><div class="actions"><a class="btn" href="#today">Back to today</a><a class="btn ghost" href="#test">Take a test</a></div></div>';
+  }
+  const it = BY_ID[s.queue[s.i]]; const total = s.queue.length;
+  return '<div class="topline"><a class="back" href="' + (s.back || '#today') + '">Exit</a><span class="meta">' + esc(s.title) + ' · ' + (s.i + 1) + ' / ' + total + '</span></div>' + bar(s.i / total) +
+    '<div class="card fc' + (s.flip ? ' flipped' : '') + '"' + (s.flip ? '' : ' data-a="flip" role="button" tabindex="0"') + '>' + cardFront(it) +
+    (s.flip ? '<hr>' + cardBack(it) + '<div class="fc-tools">' + spk(it.t === 'grammar' ? it.ex.jp : (it.rd || it.jp)) + '</div>' : '') + '</div>' +
+    (s.flip ? '<div class="grades"><button class="btn bad" type="button" data-a="grade" data-v="again">Again <kbd>1</kbd></button><button class="btn ghost" type="button" data-a="grade" data-v="good">Good <kbd>2</kbd></button><button class="btn" type="button" data-a="grade" data-v="easy">Easy <kbd>3</kbd></button></div>' :
+      '<div class="grades"><button class="btn" type="button" data-a="flip">Show answer <kbd>Space</kbd></button></div>') +
+    '<p class="meta c">Again repeats the card today. Good and Easy push it further into the future.</p>';
+}
+
+/* ---------- Test ---------- */
+function viewTest() {
+  const T = X.test;
+  if (T && T.kind === 'daily') return T.done ? viewResult(T) : viewQuestion(T);
+  const t = todayKey(); const lvId = X.testLv || S.pref.lv; const today = testsOn(t); const dyDone = today.some(x => x.dy);
+  return '<h1 class="h"><span class="jp-h">試験</span> Mock test</h1><p class="sub">Twenty questions, mixed from kana, words, kanji and grammar. Today’s paper is fixed, so you can compare day to day.</p>' +
+    '<div class="card lobby"><div class="row2"><div><label class="lab" for="tlsel">Test level</label><select id="tlsel" class="sel">' + LEVELS.map(l => '<option value="' + l.id + '"' + (l.id === lvId ? ' selected' : '') + '>' + l.tag + ' · ' + l.name + '</option>').join('') + '</select></div>' +
+    '<ul class="facts"><li>20 questions, about 5 minutes</li><li>' + (dyDone ? 'Today’s scored test is done. More attempts are practice.' : 'Your first test each day is scored on the scoreboard.') + '</li><li>Mistakes go back into your review list.</li></ul></div>' +
+    '<button class="btn big" type="button" data-a="start">' + (dyDone ? 'Start a practice test' : 'Start today’s test') + '</button></div>' +
+    (today.length ? '<h2 class="sec">Today’s attempts</h2><div class="list tight">' + today.map(x => '<div class="card row"><div class="grow"><b>' + pctOf(x) + '%</b> · ' + x.c + ' of ' + x.n + '</div><span class="chip ' + (x.dy ? 'on' : '') + '">' + (x.dy ? 'Scored' : 'Practice') + '</span><span class="meta">' + fmtTime(x.s) + '</span></div>').join('') + '</div>' : '');
+}
+function viewQuestion(T) {
+  const q = T.qs[T.i]; const picked = T.picked; const n = T.qs.length;
+  const choices = q.choices.map((c, i) => {
+    let cls = ''; if (picked != null) { if (i === q.ans) cls = ' ok'; else if (i === picked) cls = ' no'; else cls = ' dim'; }
+    return '<button type="button" class="choice' + cls + '" data-a="pick" data-v="' + i + '"' + (picked != null ? ' disabled' : '') + '><span class="key">' + (i + 1) + '</span><span class="ct">' + esc(c) + '</span></button>';
+  }).join('');
+  const ok = picked === q.ans;
+  return '<div class="topline"><span class="meta">' + esc(T.title) + '</span><span class="meta">Question ' + (T.i + 1) + ' of ' + n + '</span></div>' + bar(T.i / n) +
+    '<div class="card qcard"><p class="eyebrow">' + esc(q.sub) + '</p><div class="prompt' + (q.big ? ' big' : '') + (q.sentence ? ' sent' : '') + '">' + esc(q.prompt) + '</div></div>' +
+    '<div class="choices" role="group" aria-label="Answers">' + choices + '</div>' +
+    (picked != null ? '<div class="fb ' + (ok ? 'good' : 'bad') + '" role="status"><b>' + (ok ? 'Correct' : 'Not quite') + '</b><p>' + esc(q.explain) + '</p>' + spk(q.say) + '</div><div class="actions"><button class="btn" type="button" data-a="next">' + (T.i + 1 >= n ? 'See results' : 'Next') + ' <kbd>Enter</kbd></button></div>' : '<p class="meta">Press 1 to 4 to answer.</p>') +
+    '<div class="actions end"><button class="link" type="button" data-a="abandon">Leave this test</button></div>';
+}
+function viewResult(T) {
+  const n = T.qs.length; const g = gradeOf(T.pct);
+  const cats = Object.keys(T.cat);
+  return '<div class="card result"><div class="res-top"><div class="grade g-' + g + '" aria-label="Grade ' + g + '">' + g + '</div><div><p class="eyebrow">' + (T.record ? (T.daily ? 'Daily test · scored' : 'Practice test') : 'Quick quiz') + '</p><h1 class="score">' + T.correct + ' <small>/ ' + n + '</small></h1><p class="lede">' + T.pct + '% in ' + fmtTime(T.secs) + '. +' + T.xp + ' XP.</p></div></div><p>' + GRADE_MSG[g] + '</p>' +
+    (cats.length ? '<div class="cats">' + cats.map(c => { const a = T.cat[c]; return '<div class="catrow"><span>' + esc(c) + '</span>' + bar(a[0] / a[1]) + '<span class="meta">' + a[0] + ' / ' + a[1] + '</span></div>'; }).join('') + '</div>' : '') +
+    '<div class="actions">' + (X.miss.length ? '<a class="btn" href="#cards-miss">Review ' + X.miss.length + ' mistake' + (X.miss.length === 1 ? '' : 's') + '</a>' : '') + (T.record ? '<a class="btn ghost" href="#scores">Scoreboard</a><button class="btn ghost" type="button" data-a="again-test">Another test</button>' : '<a class="btn ghost" href="' + esc(T.back) + '">Back to unit</a>') + '</div></div>' +
+    '<h2 class="sec">Answer review</h2><div class="list tight">' + T.qs.map((q, i) => { const l = T.log[i]; return '<div class="card rv ' + (l && l.ok ? 'good' : 'bad') + '"><span class="rvm">' + (l && l.ok ? 'Right' : 'Missed') + '</span><span class="grow">' + esc(q.explain) + '</span></div>'; }).join('') + '</div>';
+}
+
+/* ---------- Scores ---------- */
+function chart14() {
+  const W = 640, H = 230, L = 34, R = 8, Tp = 18, B = 30; const ph = H - Tp - B; const t = todayKey();
+  const keys = []; for (let i = 13; i >= 0; i--) keys.push(addDays(t, -i));
+  const bw = (W - L - R) / 14; let g = ''; let any = false;
+  [0, 50, 100].forEach(v => { const y = Tp + ph * (1 - v / 100); g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y + '" y2="' + y + '" class="gl"/><text x="' + (L - 6) + '" y="' + (y + 4) + '" class="gt" text-anchor="end">' + v + '</text>'; });
+  keys.forEach((k, i) => {
+    const sc = dailyScore(k); const x = L + i * bw + bw * 0.18; const w = bw * 0.64; const d = parseKey(k);
+    const lab = (i === 13 || d.getDate() === 1 || i % 2 === 0) ? d.getDate() : '';
+    g += '<text x="' + (x + w / 2) + '" y="' + (H - 10) + '" class="gt' + (k === t ? ' today' : '') + '" text-anchor="middle">' + lab + '</text>';
+    if (sc != null) { any = true; const h = Math.max(2, ph * sc / 100); g += '<rect x="' + x + '" y="' + (Tp + ph - h) + '" width="' + w + '" height="' + h + '" rx="3" class="bf' + (k === t ? ' today' : '') + '"/><text x="' + (x + w / 2) + '" y="' + (Tp + ph - h - 5) + '" class="gv" text-anchor="middle">' + sc + '</text>'; }
+    else g += '<rect x="' + x + '" y="' + (Tp + ph - 2) + '" width="' + w + '" height="2" class="be"/>';
+  });
+  if (!any) g += '<text x="' + (W / 2) + '" y="' + (Tp + ph / 2) + '" class="gt" text-anchor="middle">Your daily test scores will appear here.</text>';
+  return '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Daily test score for the last 14 days">' + g + '</svg>';
+}
+function heatmap() {
+  const t = todayKey(); const todayRow = (parseKey(t).getDay() + 6) % 7; const start = addDays(t, -(todayRow + 14 * 7)); let h = '';
+  for (let r = 0; r < 7; r++) for (let c = 0; c < 15; c++) {
+    const k = addDays(start, c * 7 + r);
+    if (k > t) { h += '<i class="hm x"></i>'; continue; }
+    const x = S.days[k] ? S.days[k].xp : 0; const lv = x <= 0 ? 0 : x < 25 ? 1 : x < 70 ? 2 : x < 140 ? 3 : 4;
+    h += '<i class="hm l' + lv + '" title="' + k + ': ' + x + ' XP"></i>';
+  }
+  return '<div class="heat" role="img" aria-label="Study activity for the last 15 weeks">' + h + '</div>';
+}
+function viewScores() {
+  const t = todayKey(); const all = S.tests; const best = all.reduce((m, x) => Math.max(m, pctOf(x)), 0);
+  const recent = []; for (let i = 0; i < 7; i++) { const s = dailyScore(addDays(t, -i)); if (s != null) recent.push(s); }
+  const avg7 = recent.length ? Math.round(recent.reduce((a, b) => a + b, 0) / recent.length) : null;
+  const rk = rankOf(S.xp); const st = streak();
+  const byLv = LEVELS.map(l => { const ts = all.filter(x => x.lv === l.id); return ts.length ? { l, n: ts.length, best: Math.max.apply(null, ts.map(pctOf)) } : null; }).filter(Boolean);
+  const hist = all.slice(-12).reverse();
+  return '<h1 class="h"><span class="jp-h">成績</span> Scoreboard</h1><p class="sub">Your personal record. Only your first test each day is scored; practice attempts are listed too.</p>' +
+    '<div class="tiles"><div class="tile"><span class="lab">Best score</span><b>' + (all.length ? best + '%' : '–') + '</b><span class="meta">' + all.length + ' test' + (all.length === 1 ? '' : 's') + ' taken</span></div>' +
+    '<div class="tile"><span class="lab">7-day average</span><b>' + (avg7 != null ? avg7 + '%' : '–') + '</b><span class="meta">' + recent.length + ' scored day' + (recent.length === 1 ? '' : 's') + '</span></div>' +
+    '<div class="tile"><span class="lab">Streak</span><b>' + st + '</b><span class="meta">Longest ' + longestStreak() + ' days</span></div>' +
+    '<div class="tile"><span class="lab">Rank</span><b class="jp-h sm">' + rk.r[1] + '</b><span class="meta">' + rk.r[2] + ' · ' + S.xp + ' XP</span></div></div>' +
+    '<h2 class="sec">Daily test, last 14 days</h2><div class="card">' + chart14() + '</div>' +
+    '<h2 class="sec">Study activity</h2><div class="card">' + heatmap() + '<p class="meta legend">Last 15 weeks. Darker means more XP that day.</p></div>' +
+    (byLv.length ? '<h2 class="sec">Personal bests</h2><div class="list tight">' + byLv.map(o => '<div class="card row"><span class="lvtag">' + o.l.tag + '</span><span class="grow">' + o.l.name + '</span><b>' + o.best + '%</b><span class="meta">' + o.n + ' test' + (o.n === 1 ? '' : 's') + '</span></div>').join('') + '</div>' : '') +
+    '<h2 class="sec">Recent tests</h2>' + (hist.length ? '<div class="card scroll"><table class="tbl"><thead><tr><th>Date</th><th>Level</th><th>Score</th><th>Time</th><th>Type</th></tr></thead><tbody>' +
+      hist.map(x => '<tr><td>' + esc(new Date(x.t).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })) + '</td><td>' + esc(LEVEL_BY_ID[x.lv] ? LEVEL_BY_ID[x.lv].tag : x.lv) + '</td><td><b>' + x.c + '/' + x.n + '</b> · ' + pctOf(x) + '%</td><td>' + fmtTime(x.s) + '</td><td>' + (x.dy ? '<span class="chip on">Scored</span>' : '<span class="chip">Practice</span>') + '</td></tr>').join('') +
+      '</tbody></table></div>' : '<div class="card empty"><p>No tests yet. Take your first one and it will show up here.</p><a class="btn" href="#test">Take today’s test</a></div>');
+}
+
+/* ---------- Progress ---------- */
+function windowStats(from, to) {
+  const ts = S.tests.filter(x => x.d >= from && x.d <= to); let xp = 0, nw = 0, days = 0;
+  for (let k = from; k <= to; k = addDays(k, 1)) { const d = S.days[k]; if (d) { xp += d.xp; nw += d.nw; if (dayActive(k)) days++; } }
+  const avg = ts.length ? Math.round(ts.reduce((a, x) => a + pctOf(x), 0) / ts.length) : null;
+  return { ts: ts.length, avg, xp, nw, days };
+}
+function delta(a, b, unit) {
+  if (a == null || b == null) return '<span class="meta">Not enough data yet</span>';
+  const d = a - b; if (d === 0) return '<span class="meta">Same as last week</span>';
+  return '<span class="dl ' + (d > 0 ? 'up' : 'dn') + '">' + (d > 0 ? '+' : '') + d + unit + ' vs last week</span>';
+}
+function viewProgress() {
+  const t = todayKey(); const tw = windowStats(addDays(t, -6), t); const lw = windowStats(addDays(t, -13), addDays(t, -7));
+  const tot = totalLearned(); let est = null;
+  for (const l of LEVELS) { if (levelStats(l.id).pct >= 0.6) est = l; else break; }
+  const cat = {}; const from = addDays(t, -30);
+  S.tests.filter(x => x.d >= from).forEach(x => { Object.keys(x.cat || {}).forEach(c => { const a = cat[c] || (cat[c] = [0, 0]); a[0] += x.cat[c][0]; a[1] += x.cat[c][1]; }); });
+  const cats = Object.keys(cat); const weak = weakIds();
+  return '<h1 class="h"><span class="jp-h">歩み</span> Progress</h1><p class="sub">How far you have come, and what to work on next.</p>' +
+    '<div class="card est"><div><p class="eyebrow">Estimated level</p><h2 class="jp-h">' + (est ? est.tag + ' · ' + est.name : 'Just starting') + '</h2><p class="meta">Based on what you have learned in this app. It is a guide, not an official JLPT result.</p></div><div class="est-r"><b>' + tot + '</b><span class="meta">of ' + ITEMS.length + ' items learned</span></div></div>' +
+    '<h2 class="sec">Mastery by level</h2><div class="card">' + LEVELS.map(l => { const s = levelStats(l.id); return '<div class="catrow"><span><span class="lvtag">' + l.tag + '</span> ' + l.name + '</span>' + bar(s.pct) + '<span class="meta">' + s.learned + ' / ' + s.total + '</span></div>'; }).join('') + '</div>' +
+    '<h2 class="sec">This week and last week</h2><div class="tiles">' +
+    '<div class="tile"><span class="lab">Average test score</span><b>' + (tw.avg != null ? tw.avg + '%' : '–') + '</b>' + delta(tw.avg, lw.avg, ' pts') + '</div>' +
+    '<div class="tile"><span class="lab">New items studied</span><b>' + tw.nw + '</b>' + delta(tw.nw, lw.nw, '') + '</div>' +
+    '<div class="tile"><span class="lab">XP earned</span><b>' + tw.xp + '</b>' + delta(tw.xp, lw.xp, ' XP') + '</div>' +
+    '<div class="tile"><span class="lab">Days studied</span><b>' + tw.days + ' / 7</b>' + delta(tw.days, lw.days, '') + '</div></div>' +
+    '<h2 class="sec">Accuracy by skill, last 30 days</h2><div class="card">' + (cats.length ? cats.map(c => '<div class="catrow"><span>' + esc(c) + '</span>' + bar(cat[c][0] / cat[c][1]) + '<span class="meta">' + Math.round(cat[c][0] / cat[c][1] * 100) + '%</span></div>').join('') : '<p class="meta">Take a mock test to see accuracy for kana, vocabulary, kanji and grammar.</p>') + '</div>' +
+    '<h2 class="sec">Weak spots</h2>' + (weak.length ? '<div class="card"><div class="chips">' + weak.map(id => { const it = BY_ID[id]; return '<span class="wchip"><b>' + esc(it.jp) + '</b> <span class="meta">' + esc(it.t === 'grammar' ? it.en : (it.en || it.ro)) + '</span></span>'; }).join('') + '</div><div class="actions"><a class="btn" href="#cards-weak">Drill these now</a></div></div>' : '<div class="card empty"><p>No weak spots yet. Items you miss in tests will collect here.</p></div>') +
+    '<h2 class="sec">Badges</h2><div class="badges">' + BADGES.map(b => { const on = b[3](); return '<div class="badge' + (on ? ' on' : '') + '"><span class="bm">' + (on ? '✓' : '') + '</span><b>' + b[1] + '</b><span class="meta">' + b[2] + '</span></div>'; }).join('') + '</div>' +
+    '<h2 class="sec">Your data</h2><div class="card"><p class="meta">' + (X.status === 'account' ? 'Progress is saved to your account and follows you across devices.' : 'Progress is saved in this browser only. Sign in to the page to keep it across devices.') + '</p>' +
+    (X.confirm ? '<p><b>Erase all progress, scores and streaks?</b> This cannot be undone.</p><div class="actions"><button class="btn bad" type="button" data-a="reset2">Yes, erase everything</button><button class="btn ghost" type="button" data-a="reset0">Keep my progress</button></div>' : '<div class="actions"><button class="btn ghost" type="button" data-a="reset1">Reset progress</button></div>') + '</div>';
+}
+function viewNotFound() { return '<div class="card empty"><h2>Page not found</h2><a class="btn" href="#today">Back to today</a></div>'; }
+
+
+/* ---------- Library: letters, conversations, paragraphs, sentences ---------- */
+const LIBS = [['kana', 'かな', 'Letters and sounds', 'Small kana, long vowels, extended katakana and spelling rules.'], ['talk', '会話', 'Conversations', 'Six real-life dialogues with line-by-line English.'], ['read', '文章', 'Paragraphs', 'Short descriptions of a person, family, day and town.'], ['sent', '文', 'Sentences', 'Useful sentences for survival, travel, feelings and daily life.']];
+const L_KANA = [
+  ['Small kana and marks', 'っ|pause: doubles the next consonant (きって kitte)|ゃ|small ya (きゃ kya)|ゅ|small yu (きゅ kyu)|ょ|small yo (きょ kyo)|ー|long vowel in katakana (コーヒー kōhī)|ん|the only lone consonant: n / m / ng'],
+  ['Extended katakana', 'ティ|ti|ディ|di|ファ|fa|フィ|fi|フェ|fe|フォ|fo|ウィ|wi|ウェ|we|ウォ|wo|シェ|she|ジェ|je|チェ|che|ヴ|vu']
+];
+const L_NOTES = ['は is read “wa”, へ is read “e” and を is read “o” when they are particles.', 'Double vowels are held twice as long: おばさん (aunt) vs おばあさん (grandmother).', 'Katakana is used for foreign words (テレビ, コーヒー), names and emphasis.', 'Dakuten (゛) voices a sound: か → が. Handakuten (゜) turns は into ぱ.', 'Japanese has no spaces. Here they are added in the kana line to help you read.'];
+const T = (a) => a.trim().split('\n').map(l => l.split('|'));
+const L_TALK = [
+  ['自己紹介', 'Meeting someone', 'Your first introduction.', `
+田中|はじめまして。田中です。|はじめまして。たなか です。|Nice to meet you. I am Tanaka.
+スミス|はじめまして。スミスです。アメリカから来ました。|はじめまして。スミス です。アメリカ から きました。|Nice to meet you. I am Smith. I came from America.
+田中|どうぞよろしくお願いします。|どうぞ よろしく おねがいします。|Pleased to meet you.
+スミス|こちらこそ、よろしくお願いします。|こちら こそ、よろしく おねがいします。|The pleasure is mine.`],
+  ['レストラン', 'At a restaurant', 'Ordering and paying.', `
+店員|いらっしゃいませ。何名様ですか。|いらっしゃいませ。なんめいさま ですか。|Welcome. How many people?
+客|二人です。|ふたり です。|Two.
+店員|ご注文はお決まりですか。|ごちゅうもん は おきまり ですか。|Have you decided your order?
+客|ラーメンを二つください。|ラーメン を ふたつ ください。|Two ramen, please.
+客|お会計をお願いします。|おかいけい を おねがいします。|The bill, please.`],
+  ['道を聞く', 'Asking directions', 'Finding the station.', `
+私|すみません、駅はどこですか。|すみません、えき は どこ ですか。|Excuse me, where is the station?
+男の人|まっすぐ行って、二つ目の角を右に曲がってください。|まっすぐ いって、ふたつめ の かど を みぎ に まがって ください。|Go straight and turn right at the second corner.
+私|歩いて何分ぐらいですか。|あるいて なんぷん ぐらい ですか。|About how many minutes on foot?
+男の人|五分ぐらいです。|ごふん ぐらい です。|About five minutes.
+私|ありがとうございます。|ありがとう ございます。|Thank you.`],
+  ['買い物', 'Shopping', 'Asking the price and bargaining gently.', `
+私|これはいくらですか。|これ は いくら ですか。|How much is this?
+店員|千五百円です。|せんごひゃくえん です。|It is 1,500 yen.
+私|もう少し安いのはありますか。|もう すこし やすい の は ありますか。|Do you have a slightly cheaper one?
+店員|はい、こちらは千円です。|はい、こちら は せんえん です。|Yes, this one is 1,000 yen.
+私|じゃあ、それをください。|じゃあ、それ を ください。|Then I will take that one.`],
+  ['病院', 'At the doctor', 'Describing how you feel.', `
+医者|どうしましたか。|どう しましたか。|What seems to be the problem?
+私|昨日から頭が痛いです。|きのう から あたま が いたい です。|My head has hurt since yesterday.
+医者|熱はありますか。|ねつ は ありますか。|Do you have a fever?
+私|はい、少しあります。|はい、すこし あります。|Yes, a little.
+医者|薬を出しますので、ゆっくり休んでください。|くすり を だします ので、ゆっくり やすんで ください。|I will prescribe medicine, so please rest well.`],
+  ['電車', 'At the train station', 'Finding your platform and time.', `
+私|東京行きの電車はどれですか。|とうきょう ゆき の でんしゃ は どれ ですか。|Which train goes to Tokyo?
+駅員|三番線です。|さんばんせん です。|Platform 3.
+私|次の電車は何時ですか。|つぎ の でんしゃ は なんじ ですか。|What time is the next train?
+駅員|十時十五分です。|じゅうじ じゅうごふん です。|10:15.`]
+];
+const L_READ = [
+  ['自己紹介', 'About me', 'N5 · Describing a person', `
+私の名前はマリアです。|わたし の なまえ は マリア です。|My name is Maria.
+二十五歳で、会社員です。|にじゅうご さい で、かいしゃいん です。|I am 25 years old and an office worker.
+私は日本の料理が大好きです。|わたし は にほん の りょうり が だいすき です。|I love Japanese food.
+趣味は写真を撮ることです。|しゅみ は しゃしん を とる こと です。|My hobby is taking photos.
+どうぞよろしくお願いします。|どうぞ よろしく おねがいします。|Pleased to meet you.`],
+  ['私の家族', 'My family', 'N5 · Describing people', `
+私の家族は四人です。|わたし の かぞく は よにん です。|My family has four people.
+父は医者で、母は先生です。|ちち は いしゃ で、はは は せんせい です。|My father is a doctor and my mother is a teacher.
+姉は大学で勉強しています。|あね は だいがく で べんきょう して います。|My older sister studies at university.
+日曜日に、みんなで晩ご飯を食べます。|にちようび に、みんな で ばんごはん を たべます。|On Sundays we all eat dinner together.`],
+  ['私の一日', 'My day', 'N5 · Daily routine', `
+毎朝七時に起きます。|まいあさ しちじ に おきます。|I get up at seven every morning.
+パンを食べて、八時に家を出ます。|パン を たべて、はちじ に いえ を でます。|I eat bread and leave home at eight.
+電車で会社へ行きます。|でんしゃ で かいしゃ へ いきます。|I go to work by train.
+夜は日本語を勉強してから、寝ます。|よる は にほんご を べんきょう してから、ねます。|At night I study Japanese and then go to bed.`],
+  ['私の町', 'My town', 'N4 · Describing a place', `
+私の町は小さいですが、とても静かです。|わたし の まち は ちいさい ですが、とても しずか です。|My town is small but very quiet.
+駅の近くに大きい公園があります。|えき の ちかく に おおきい こうえん が あります。|There is a big park near the station.
+春には、桜がきれいに咲きます。|はる には、さくら が きれい に さきます。|In spring the cherry blossoms bloom beautifully.
+私はこの町が好きなので、ずっと住みたいです。|わたし は この まち が すき なので、ずっと すみたい です。|I like this town, so I want to live here for good.`]
+];
+const L_SENT = [
+  ['Survival phrases', `
+分かりません。|わかりません。|I do not understand.
+もう一度お願いします。|もう いちど おねがいします。|One more time, please.
+ゆっくり話してください。|ゆっくり はなして ください。|Please speak slowly.
+英語が話せますか。|えいご が はなせます か。|Can you speak English?
+トイレはどこですか。|トイレ は どこ ですか。|Where is the restroom?
+助けてください。|たすけて ください。|Please help me.
+大丈夫です。|だいじょうぶ です。|I am fine / it is okay.
+日本語で何と言いますか。|にほんご で なん と いいます か。|How do you say it in Japanese?`],
+  ['Travel', `
+切符を一枚ください。|きっぷ を いちまい ください。|One ticket, please.
+この電車は京都に止まりますか。|この でんしゃ は きょうと に とまります か。|Does this train stop at Kyoto?
+ホテルを予約しました。|ホテル を よやく しました。|I have booked a hotel.
+パスポートを見せてください。|パスポート を みせて ください。|Please show your passport.
+写真を撮ってもいいですか。|しゃしん を とっても いい ですか。|May I take a photo?
+空港までどのぐらいかかりますか。|くうこう まで どの ぐらい かかります か。|How long does it take to the airport?`],
+  ['Feelings and opinions', `
+とても嬉しいです。|とても うれしい です。|I am very happy.
+少し疲れました。|すこし つかれました。|I got a little tired.
+日本の文化に興味があります。|にほん の ぶんか に きょうみ が あります。|I am interested in Japanese culture.
+私はそう思います。|わたし は そう おもいます。|I think so.
+それは面白いですね。|それ は おもしろい です ね。|That is interesting, isn’t it?
+残念ですが、行けません。|ざんねん ですが、いけません。|Sadly, I cannot go.`],
+  ['Daily life', `
+今日はいい天気ですね。|きょう は いい てんき です ね。|Nice weather today, isn’t it?
+一緒に昼ご飯を食べませんか。|いっしょ に ひるごはん を たべません か。|Shall we eat lunch together?
+週末は何をしますか。|しゅうまつ は なに を します か。|What are you doing this weekend?
+明日までに宿題を出さなければなりません。|あした まで に しゅくだい を ださなければ なりません。|I have to hand in homework by tomorrow.
+お先に失礼します。|おさき に しつれい します。|Excuse me for leaving before you.
+お疲れ様でした。|おつかれさま でした。|Thank you for your hard work.`]
+];
+const exb = (jp, kana, en, sp) => '<div class="ex">' + (sp ? '<span class="sp">' + esc(sp) + '</span>' : '') + '<div class="exjp">' + esc(jp) + ' ' + spk(jp) + '</div><div class="exkana">' + esc(kana) + '</div><div class="exro">' + esc(sentenceRomaji(kana)) + '</div><div class="exen">' + esc(en) + '</div></div>';
+function viewLibrary() {
+  return '<h1 class="h"><span class="jp-h">読む</span> Library</h1><p class="sub">Read and listen to real Japanese. Every line shows kanji, kana, romaji and English. Tap the speaker to hear it.</p><div class="grid lv">' +
+    LIBS.map(l => '<a class="card lvcard" href="#lib-' + l[0] + '"><span class="lvtag">' + l[1] + '</span><h3>' + l[2] + '</h3><p>' + esc(l[3]) + '</p></a>').join('') + '</div>';
+}
+function viewLib(k) {
+  const m = LIBS.find(l => l[0] === k); if (!m) return viewNotFound(); let b = '';
+  if (k === 'kana') {
+    b = L_KANA.map(g => { const a = g[1].split('|'); let h = '<h2 class="sec">' + g[0] + '</h2><div class="kgrid">'; for (let i = 0; i < a.length; i += 2) h += '<button type="button" class="k" data-a="say" data-v="' + esc(a[i]) + '"><span class="kc">' + a[i] + '</span><span class="kr">' + esc(a[i + 1]) + '</span></button>'; return h + '</div>'; }).join('') +
+      '<h2 class="sec">Spelling rules</h2><div class="card"><ul>' + L_NOTES.map(n => '<li>' + esc(n) + '</li>').join('') + '</ul></div>' +
+      '<div class="actions"><a class="btn" href="#unit-kana-h1">Hiragana</a><a class="btn ghost" href="#unit-kana-k1">Katakana</a></div>';
+  } else if (k === 'talk') {
+    b = L_TALK.map(d => '<article class="card"><h3>' + d[0] + ' · ' + esc(d[1]) + '</h3><p class="meta">' + esc(d[2]) + '</p>' + T(d[3]).map(r => exb(r[1], r[2], r[3], r[0])).join('') + '</article>').join('');
+  } else if (k === 'read') {
+    b = L_READ.map(d => { const r = T(d[3]); return '<article class="card"><h3>' + d[0] + ' · ' + esc(d[1]) + '</h3><p class="meta">' + esc(d[2]) + ' ' + spk(r.map(x => x[0]).join('')) + '</p>' + r.map(x => exb(x[0], x[1], x[2])).join('') + '</article>'; }).join('');
+  } else {
+    b = L_SENT.map(g => '<article class="card"><h3>' + g[0] + '</h3>' + T(g[1]).map(r => exb(r[0], r[1], r[2])).join('') + '</article>').join('');
+  }
+  return '<a class="back" href="#library">Library</a><h1 class="h"><span class="jp-h">' + m[1] + '</span> ' + m[2] + '</h1><p class="sub">' + esc(m[3]) + '</p><div class="list">' + b + '</div>';
+}
+
+/* ---------- Router ---------- */
+let lastH = null;
+function ensureCards(h, k) {
+  if (X.cards && X.cards.key === h) return;
+  let ids = [], title = 'Study', back = '#learn';
+  if (k === 'due') { ids = dueIds().slice(0, 30); title = 'Review'; back = '#today'; }
+  else if (k === 'new') { ids = newIds(5); title = 'New items'; back = '#today'; }
+  else if (k === 'weak') { ids = weakIds(); title = 'Weak spots'; back = '#progress'; }
+  else if (k === 'miss') { ids = X.miss.slice(); title = 'Mistakes'; back = '#test'; }
+  else if (UNIT_BY_ID[k]) { ids = UNIT_BY_ID[k].items.map(i => i.id); title = UNIT_BY_ID[k].title; back = '#unit-' + k; }
+  startCards(h, ids, title, back);
+}
+function ensureDrill(h, k) {
+  if (X.test && X.test.key === h) return;
+  const u = UNIT_BY_ID[k]; if (!u) { X.test = null; return; }
+  startTest({ record: false, lv: u.lv, items: u.items, n: 10, title: 'Quick quiz · ' + u.title, key: h, back: '#unit-' + k });
+}
+function render() {
+  const h = (location.hash || '#today').slice(1) || 'today'; let html = '';
+  if (h.indexOf('cards-') === 0) ensureCards(h, h.slice(6)); else X.cards = null;
+  if (h.indexOf('drill-') === 0) ensureDrill(h, h.slice(6)); else if (X.test && X.test.kind === 'drill') X.test = null;
+  if (h === 'today') html = viewToday();
+  else if (h === 'learn') html = viewLearn();
+  else if (h.indexOf('level-') === 0) html = viewLevel(h.slice(6));
+  else if (h.indexOf('unit-') === 0) html = viewUnit(h.slice(5));
+  else if (h.indexOf('cards-') === 0) html = viewCards();
+  else if (h.indexOf('drill-') === 0) html = X.test ? (X.test.done ? viewResult(X.test) : viewQuestion(X.test)) : viewNotFound();
+  else if (h === 'library') html = viewLibrary();
+  else if (h.indexOf('lib-') === 0) html = viewLib(h.slice(4));
+  else if (h === 'test') html = viewTest();
+  else if (h === 'scores') html = viewScores();
+  else if (h === 'progress') html = viewProgress();
+  else html = viewNotFound();
+  const sect = h === 'today' ? 'today' : (h === 'test') ? 'test' : h === 'scores' ? 'scores' : h === 'progress' ? 'progress' : /^lib/.test(h) ? 'library' : 'learn';
+  document.querySelectorAll('#nav a').forEach(a => { if (a.dataset.n === sect) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  $app.innerHTML = html + '<p class="foot">' + (X.status === 'account' ? 'Saved to your account.' : 'Saved on this device.') + '</p>';
+  const chip = document.getElementById('hdr-streak'); if (chip) chip.textContent = streak() + ' day' + (streak() === 1 ? '' : 's');
+  const xpc = document.getElementById('hdr-xp'); if (xpc) xpc.textContent = S.xp + ' XP';
+  if (h !== lastH) { window.scrollTo(0, 0); lastH = h; }
+}
+onStatus = () => render();
+
+/* ---------- Events ---------- */
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-a]'); if (!el) return;
+  const a = el.dataset.a, v = el.dataset.v;
+  if (a === 'say') { speak(v); return; }
+  if (a === 'flip') { if (X.cards) X.cards.flip = true; }
+  else if (a === 'grade') gradeCard(v);
+  else if (a === 'pick') answerQ(+v);
+  else if (a === 'next') nextQ();
+  else if (a === 'start') startTest({ record: true, lv: X.testLv || S.pref.lv, n: 20, title: 'Mock test · ' + LEVEL_BY_ID[X.testLv || S.pref.lv].tag, key: 'test' });
+  else if (a === 'again-test') { X.test = null; location.hash = '#test'; }
+  else if (a === 'abandon') { const back = X.test && X.test.back; X.test = null; if (back && back !== '#test') location.hash = back; }
+  else if (a === 'reset1') X.confirm = true;
+  else if (a === 'reset0') X.confirm = false;
+  else if (a === 'reset2') { S = blank(); X.cards = null; X.test = null; X.miss = []; X.confirm = false; touch(); }
+  render();
+});
+document.addEventListener('change', e => {
+  if (e.target.id === 'lvsel') { S.pref.lv = e.target.value; touch(); render(); }
+  else if (e.target.id === 'tlsel') { X.testLv = e.target.value; render(); }
+});
+document.addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey || e.altKey || e.target.closest('select,input,textarea')) return;
+  const h = (location.hash || '#today').slice(1); const body = e.target === document.body;
+  const T = X.test;
+  if (T && !T.done && (h === 'test' || h.indexOf('drill-') === 0)) {
+    if (/^[1-4]$/.test(e.key) && T.picked == null && +e.key <= T.qs[T.i].choices.length) { answerQ(+e.key - 1); render(); }
+    else if ((e.key === 'Enter' || e.key === ' ') && T.picked != null && body) { e.preventDefault(); nextQ(); render(); }
+    return;
+  }
+  const s = X.cards;
+  if (s && h.indexOf('cards-') === 0 && s.i < s.queue.length) {
+    if ((e.key === ' ' || e.key === 'Enter') && !s.flip && body) { e.preventDefault(); s.flip = true; render(); }
+    else if (s.flip && /^[1-3]$/.test(e.key)) { gradeCard(['again', 'good', 'easy'][+e.key - 1]); render(); }
+  }
+});
+window.addEventListener('hashchange', render);
+
+/* ---------- Boot ---------- */
+(function boot() {
+  const nav = document.getElementById('nav');
+  nav.innerHTML = NAV.map(n => '<a href="#' + n[0] + '" data-n="' + n[0] + '"><span class="nj">' + n[1] + '</span><span class="ne">' + n[2] + '</span></a>').join('');
+  loadLocal(); saveHook = scheduleSave;
+  render();
+  initStorage().then(render, render);
+})();
+
+</script>
+
+</body></html>
